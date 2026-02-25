@@ -28,7 +28,7 @@
         "role": "FRONTEND DEVELOPER & DISEÑADOR GRÁFICO",
         "p1": "Soy un Frontend Developer apasionado por crear interfaces que no solo funcionan correctamente, sino que también deleitan a los usuarios. Con más de 3 años de experiencia construyendo aplicaciones web modernas, me especializo en convertir diseños complejos en código limpio y eficiente.",
         "p2": "Mi stack principal incluye React, Next.js y TypeScript, potenciados por animaciones avanzadas con GSAP y Three.js. Me encanta la intersección entre diseño y desarrollo, donde la experiencia de usuario cobra vida.",
-        "p3": "Cuando no estoy programando, exploro nuevas tecnologías, contribuyo a proyectos open source y comparto mi conocimiento con la comunidad.",
+        "p3": "",
         "specialty_1_title": "FRONTEND",
         "specialty_1_desc": "React · Next.js · TypeScript",
         "specialty_2_title": "ANIMACIÓN",
@@ -37,7 +37,7 @@
         "specialty_3_desc": "UI/UX · Branding · Motion",
         "quote": "\"El código es mi pincel. La pantalla, mi lienzo.\"",
         "badge_experience": "años de experiencia",
-        "badge_projects": "proyectos completados",
+        "badge_projects": "proyectos completados    ",
         "badge_technologies": "tecnologías"
     },
     "orbit": {

@@ -6,7 +6,7 @@ import { GlitchAsciiImage } from "@/components/ui/GlitchAsciiImage";
 
 const stats = [
     { key: "badge_experience", value: 3 },
-    { key: "badge_projects", value: 20 },
+    { key: "badge_projects", value: 12 },
     { key: "badge_technologies", value: 15 },
 ] as const;
 
@@ -60,15 +60,16 @@ export function AboutSection() {
                 });
             }
 
-            // Stats counter animation
+            // Stats counter animation — lightweight text-based approach
             if (statsRef.current) {
                 const statCards = statsRef.current.querySelectorAll(".cyber-stat");
                 gsap.set(statCards, { y: 25, opacity: 0, filter: "blur(6px)" });
 
                 ScrollTrigger.create({
                     trigger: statsRef.current,
-                    start: "top 85%",
+                    start: "top 80%",
                     onEnter: () => {
+                        // Fade in the stat cards
                         gsap.to(statCards, {
                             y: 0,
                             opacity: 1,
@@ -78,16 +79,19 @@ export function AboutSection() {
                             ease: "power3.out",
                         });
 
+                        // Animate each counter: just update textContent each frame
                         countersRef.current.forEach((el, i) => {
                             if (!el) return;
                             const target = stats[i].value;
-                            const proxy = { val: 0 };
-                            gsap.to(proxy, {
-                                val: target,
-                                duration: 2,
+                            const counter = { value: 0 };
+
+                            gsap.to(counter, {
+                                value: target,
+                                duration: 2.5 + (i * 0.6),
                                 ease: "power2.out",
-                                onUpdate() {
-                                    if (el) el.textContent = String(Math.floor(proxy.val));
+                                snap: { value: 1 },
+                                onUpdate: () => {
+                                    el.textContent = String(Math.round(counter.value));
                                 },
                             });
                         });
@@ -142,7 +146,7 @@ export function AboutSection() {
 
                 .hook-title {
                     font-family: 'Space Mono', monospace;
-                    font-size: clamp(1.8rem, 4vw, 3.2rem);
+                    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
                     font-weight: 700;
                     line-height: 1.15;
                     color: #f0ede8;
