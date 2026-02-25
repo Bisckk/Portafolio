@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <!-- Left curly bracket { -->
+  <path d="
+    M 200 30
+    C 160 30, 130 50, 130 90
+    L 130 190
+    C 130 220, 110 235, 80 240
+    C 110 245, 130 260, 130 290
+    L 130 390
+    C 130 430, 160 450, 200 450
+  " fill="none" stroke="black" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right curly bracket } -->
+  <path d="
+    M 200 30
+    C 240 30, 270 50, 270 90
+    L 270 190
+    C 270 220, 290 235, 320 240
+    C 290 245, 270 260, 270 290
+    L 270 390
+    C 270 430, 240 450, 200 450
+  " fill="none" stroke="black" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

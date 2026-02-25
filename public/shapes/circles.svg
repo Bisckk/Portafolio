@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- Center large circle -->
+  <circle cx="250" cy="250" r="120" fill="none" stroke="black" stroke-width="14"/>
+  <!-- Top-left circle -->
+  <circle cx="105" cy="130" r="65"  fill="none" stroke="black" stroke-width="12"/>
+  <!-- Top-right circle -->
+  <circle cx="385" cy="130" r="65"  fill="none" stroke="black" stroke-width="12"/>
+  <!-- Bottom-left circle -->
+  <circle cx="105" cy="370" r="65"  fill="none" stroke="black" stroke-width="12"/>
+  <!-- Bottom-right circle -->
+  <circle cx="385" cy="370" r="65"  fill="none" stroke="black" stroke-width="12"/>
+</svg>

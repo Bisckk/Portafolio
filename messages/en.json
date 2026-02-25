@@ -1,0 +1,106 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "experience": "Experience",
+        "projects": "Projects",
+        "studies": "Studies",
+        "contact": "Contact"
+    },
+    "hero": {
+        "role": "Frontend Developer",
+        "name": "Bismarck Barrios",
+        "tag": "Portfolio — Creative Developer",
+        "description": "I design digital experiences that live between art and code. Dark. Precise. Unfiltered.",
+        "cta_primary": "Learn more",
+        "cta_secondary": "Download CV",
+        "cta_projects": "View projects",
+        "scroll_hint": "Scroll",
+        "mouse_hint": "Move cursor ↗",
+        "stat_projects": "Projects",
+        "stat_years": "Years exp.",
+        "stat_caffeine": "Caffeine"
+    },
+    "about": {
+        "section_label": "// ABOUT ME",
+        "hook_line": "I DON'T JUST WRITE CODE.",
+        "hook_accent": "I CREATE DIGITAL REALITIES.",
+        "role": "FRONTEND DEVELOPER & GRAPHIC DESIGNER",
+        "p1": "I'm a Frontend Developer passionate about creating interfaces that not only work correctly, but also delight users. With over 3 years of experience building modern web applications, I specialize in turning complex designs into clean and efficient code.",
+        "p2": "My main stack includes React, Next.js and TypeScript, powered by advanced animations with GSAP and Three.js. I love the intersection between design and development, where user experience comes to life.",
+        "p3": "When I'm not coding, I explore new technologies, contribute to open source projects and share my knowledge with the community.",
+        "specialty_1_title": "FRONTEND",
+        "specialty_1_desc": "React · Next.js · TypeScript",
+        "specialty_2_title": "ANIMATION",
+        "specialty_2_desc": "GSAP · Three.js · Framer",
+        "specialty_3_title": "DESIGN",
+        "specialty_3_desc": "UI/UX · Branding · Motion",
+        "quote": "\"Code is my brush. The screen, my canvas.\"",
+        "badge_experience": "years of experience",
+        "badge_projects": "completed projects",
+        "badge_technologies": "technologies"
+    },
+    "orbit": {
+        "section_label": "Tech Stack",
+        "title": "Technologies I master"
+    },
+    "experience": {
+        "section_label": "Experience",
+        "title": "My professional journey",
+        "quote": "Every line of code is an opportunity to create something extraordinary",
+        "present": "Present"
+    },
+    "works": {
+        "section_label": "Projects",
+        "title": "What I've built",
+        "subtitle": "For devs, check out what I've built",
+        "cta": "View projects",
+        "modal_title": "Projects",
+        "filter_all": "All",
+        "filter_web": "Web",
+        "filter_mobile": "Mobile",
+        "filter_ui": "UI/UX",
+        "view_demo": "View demo",
+        "view_code": "View code",
+        "close": "Close"
+    },
+    "contact": {
+        "section_label": "Contact",
+        "title": "Have a project?",
+        "subtitle": "Let's talk",
+        "cta": "Contact me",
+        "modal_title": "Let's talk",
+        "name_label": "Name",
+        "name_placeholder": "Your full name",
+        "email_label": "Email",
+        "email_placeholder": "you@email.com",
+        "subject_label": "Subject",
+        "subject_placeholder": "What's it about?",
+        "message_label": "Message",
+        "message_placeholder": "Tell me about your project...",
+        "submit": "Send message",
+        "sending": "Sending...",
+        "success": "Message sent! I'll contact you soon.",
+        "error": "Failed to send. Please try again.",
+        "validation": {
+            "name_required": "Name is required",
+            "name_min": "Name must be at least 2 characters",
+            "email_required": "Email is required",
+            "email_invalid": "Invalid email",
+            "subject_required": "Subject is required",
+            "message_required": "Message is required",
+            "message_min": "Message must be at least 10 characters"
+        }
+    },
+    "studies": {
+        "section_label": "Studies",
+        "title": "Academic background",
+        "badge_completed": "Completed",
+        "badge_inprogress": "In progress"
+    },
+    "footer": {
+        "rights": "All rights reserved",
+        "made_with": "Made with",
+        "and": "and"
+    }
+}

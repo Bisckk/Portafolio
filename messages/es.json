@@ -1,0 +1,106 @@
+{
+    "nav": {
+        "home": "Inicio",
+        "about": "Sobre mí",
+        "experience": "Experiencia",
+        "projects": "Proyectos",
+        "studies": "Estudios",
+        "contact": "Contacto"
+    },
+    "hero": {
+        "role": "Frontend Developer",
+        "name": "Bismarck Barrios",
+        "tag": "Portfolio — Creative Developer",
+        "description": "Diseño experiencias digitales que viven entre el arte y el código. Dark. Preciso. Sin filtro.",
+        "cta_primary": "Conocer más",
+        "cta_secondary": "Descargar CV",
+        "cta_projects": "Ver proyectos",
+        "scroll_hint": "Scroll",
+        "mouse_hint": "Mueve el cursor ↗",
+        "stat_projects": "Proyectos",
+        "stat_years": "Años exp.",
+        "stat_caffeine": "Cafeína"
+    },
+    "about": {
+        "section_label": "// SOBRE MÍ",
+        "hook_line": "NO SOLO ESCRIBO CÓDIGO.",
+        "hook_accent": "CREO REALIDADES DIGITALES.",
+        "role": "FRONTEND DEVELOPER & DISEÑADOR GRÁFICO",
+        "p1": "Soy un Frontend Developer apasionado por crear interfaces que no solo funcionan correctamente, sino que también deleitan a los usuarios. Con más de 3 años de experiencia construyendo aplicaciones web modernas, me especializo en convertir diseños complejos en código limpio y eficiente.",
+        "p2": "Mi stack principal incluye React, Next.js y TypeScript, potenciados por animaciones avanzadas con GSAP y Three.js. Me encanta la intersección entre diseño y desarrollo, donde la experiencia de usuario cobra vida.",
+        "p3": "Cuando no estoy programando, exploro nuevas tecnologías, contribuyo a proyectos open source y comparto mi conocimiento con la comunidad.",
+        "specialty_1_title": "FRONTEND",
+        "specialty_1_desc": "React · Next.js · TypeScript",
+        "specialty_2_title": "ANIMACIÓN",
+        "specialty_2_desc": "GSAP · Three.js · Framer",
+        "specialty_3_title": "DISEÑO",
+        "specialty_3_desc": "UI/UX · Branding · Motion",
+        "quote": "\"El código es mi pincel. La pantalla, mi lienzo.\"",
+        "badge_experience": "años de experiencia",
+        "badge_projects": "proyectos completados",
+        "badge_technologies": "tecnologías"
+    },
+    "orbit": {
+        "section_label": "Stack Tecnológico",
+        "title": "Tecnologías que domino"
+    },
+    "experience": {
+        "section_label": "Experiencia",
+        "title": "Mi trayectoria profesional",
+        "quote": "Cada línea de código es una oportunidad para crear algo extraordinario",
+        "present": "Presente"
+    },
+    "works": {
+        "section_label": "Proyectos",
+        "title": "Lo que he construido",
+        "subtitle": "Para devs, mira lo que he construido",
+        "cta": "Ver proyectos",
+        "modal_title": "Proyectos",
+        "filter_all": "Todos",
+        "filter_web": "Web",
+        "filter_mobile": "Mobile",
+        "filter_ui": "UI/UX",
+        "view_demo": "Ver demo",
+        "view_code": "Ver código",
+        "close": "Cerrar"
+    },
+    "contact": {
+        "section_label": "Contacto",
+        "title": "¿Tienes un proyecto?",
+        "subtitle": "Hablemos",
+        "cta": "Contáctame",
+        "modal_title": "Hablemos",
+        "name_label": "Nombre",
+        "name_placeholder": "Tu nombre completo",
+        "email_label": "Email",
+        "email_placeholder": "tu@email.com",
+        "subject_label": "Asunto",
+        "subject_placeholder": "¿De qué se trata?",
+        "message_label": "Mensaje",
+        "message_placeholder": "Cuéntame sobre tu proyecto...",
+        "submit": "Enviar mensaje",
+        "sending": "Enviando...",
+        "success": "¡Mensaje enviado! Te contactaré pronto.",
+        "error": "Error al enviar. Intenta de nuevo.",
+        "validation": {
+            "name_required": "El nombre es requerido",
+            "name_min": "El nombre debe tener al menos 2 caracteres",
+            "email_required": "El email es requerido",
+            "email_invalid": "Email inválido",
+            "subject_required": "El asunto es requerido",
+            "message_required": "El mensaje es requerido",
+            "message_min": "El mensaje debe tener al menos 10 caracteres"
+        }
+    },
+    "studies": {
+        "section_label": "Estudios",
+        "title": "Formación académica",
+        "badge_completed": "Completado",
+        "badge_inprogress": "En curso"
+    },
+    "footer": {
+        "rights": "Todos los derechos reservados",
+        "made_with": "Hecho con",
+        "and": "y"
+    }
+}
