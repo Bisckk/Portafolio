@@ -67,20 +67,20 @@ body {
   }
 }
 
-/* ── Orbit Infinite Scroll ───────────────────────────────────────────────── */
-@keyframes scroll-left {
+/* ── Orbit Infinite Loop (Seamless Quadruple Array) ─────────────────────────── */
+@keyframes scroll-left-smooth {
   from {
     transform: translateX(0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(-25%); /* Moves exactly 1 out of 4 rendered sets */
   }
 }
 
-@keyframes scroll-right {
+@keyframes scroll-right-smooth {
   from {
-    transform: translateX(-50%);
+    transform: translateX(-25%);
   }
 
   to {
@@ -88,12 +88,12 @@ body {
   }
 }
 
-.scroll-left {
-  animation: scroll-left 35s linear infinite;
+.scroll-left-smooth {
+  animation: scroll-left-smooth 70s linear infinite;
 }
 
-.scroll-right {
-  animation: scroll-right 35s linear infinite;
+.scroll-right-smooth {
+  animation: scroll-right-smooth 70s linear infinite;
 }
 
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */

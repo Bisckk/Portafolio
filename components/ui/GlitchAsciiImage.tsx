@@ -103,17 +103,39 @@ const ASCII_ART = `                                                             
 .                                                                              ...::====+++                                                               
             .                                                  %                  --==+            .                                                      `;
 
-export function GlitchAsciiImage() {
+interface GlitchAsciiImageProps {
+    title?: string;
+}
+
+export function GlitchAsciiImage({ title }: GlitchAsciiImageProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div ref={containerRef} className="glitch-wrap">
-            <style jsx>{`
+        <div className="relative w-full max-w-[540px] flex flex-col items-start mt-8">
+            {title && (
+                <div
+                    className="absolute -top-12 left-0 z-50 inline-flex items-center gap-3 pointer-events-none uppercase"
+                    style={{
+                        fontFamily: "'Space Mono', monospace",
+                        fontSize: "0.85rem",
+                        letterSpacing: "0.35em",
+                        color: "#CC2200"
+                    }}
+                >
+                    <span
+                        className="block w-[40px] h-[1px]"
+                        style={{ background: "linear-gradient(to right, #CC2200, transparent)" }}
+                    />
+                    {title}
+                </div>
+            )}
+
+            <div ref={containerRef} className="glitch-wrap">
+                <style jsx>{`
                 /* ═══ Container ═══ */
                 .glitch-wrap {
                     position: relative;
                     width: 100%;
-                    max-width: 380px;
                     aspect-ratio: 3 / 4;
                     cursor: crosshair;
                     overflow: hidden;
@@ -176,9 +198,9 @@ export function GlitchAsciiImage() {
                     /* Adjust top and left percentages to move the image. 
                        50% is dead center. Decrease to move up/left, increase to move down/right.
                        E.g., top: 48%; left: 49%; */
-                    top: 54%;
+                    top: 55%;
                     left: 50%;
-                    transform: translate(-50%, -50%) scale(0.42, 0.45);
+                    transform: translate(-50%, -50%) scale(0.62, 0.65);
                     text-shadow: 0 0 3px rgba(204, 34, 0, 0.35);
                     user-select: none;
                     opacity: 0.9;
@@ -379,37 +401,38 @@ export function GlitchAsciiImage() {
                 }
             `}</style>
 
-            {/* Layer 1: ASCII art (always behind) */}
-            <div className="ascii-bg">
-                <pre className="ascii-text">{ASCII_ART}</pre>
-            </div>
-
-            {/* Layer 2: Photo with fade wrapper */}
-            <div className="photo-fade-wrapper">
-                <div className="photo-layer">
-                    <Image
-                        src="/individual.png"
-                        alt="Bismarck Barrios — Frontend Developer"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 300px, 380px"
-                        priority={false}
-                    />
+                {/* Layer 1: ASCII art (always behind) */}
+                <div className="ascii-bg">
+                    <pre className="ascii-text">{ASCII_ART}</pre>
                 </div>
+
+                {/* Layer 2: Photo with fade wrapper */}
+                <div className="photo-fade-wrapper">
+                    <div className="photo-layer">
+                        <Image
+                            src="/individual.png"
+                            alt="Bismarck Barrios — Frontend Developer"
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 300px, 380px"
+                            priority={false}
+                        />
+                    </div>
+                </div>
+
+                {/* Layer 3: Glitch slices — CSS-only, always running */}
+                {/* CRT vignette */}
+                <div className="crt" />
+
+                {/* Corners */}
+                <div className="corner-tl" />
+                <div className="corner-br" />
+
+                {/* HUD */}
+                <span className="lbl lbl-file">BK_PROFILE.raw</span>
+                <span className="lbl lbl-status"><span className="dot" />ONLINE</span>
+                <span className="lbl lbl-hover">[ HOVER ]</span>
             </div>
-
-            {/* Layer 3: Glitch slices — CSS-only, always running */}
-            {/* CRT vignette */}
-            <div className="crt" />
-
-            {/* Corners */}
-            <div className="corner-tl" />
-            <div className="corner-br" />
-
-            {/* HUD */}
-            <span className="lbl lbl-file">BK_PROFILE.raw</span>
-            <span className="lbl lbl-status"><span className="dot" />ONLINE</span>
-            <span className="lbl lbl-hover">[ HOVER ]</span>
         </div>
     );
 }

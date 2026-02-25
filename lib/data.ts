@@ -240,29 +240,23 @@ export const studies: Study[] = [
 
 // ─── TECH ORBIT DATA ─────────────────────────────────────────────────────
 export const techOrbitRow1: TechOrbitItem[] = [
-    { name: "React", icon: "/icons/react.svg", color: "#61DAFB" },
-    { name: "Next.js", icon: "/icons/nextjs.svg", color: "#000000" },
     { name: "TypeScript", icon: "/icons/typescript.svg", color: "#3178C6" },
     { name: "JavaScript", icon: "/icons/javascript.svg", color: "#F7DF1E" },
     { name: "HTML5", icon: "/icons/html5.svg", color: "#E34F26" },
     { name: "CSS3", icon: "/icons/css3.svg", color: "#1572B6" },
+    { name: "React", icon: "/icons/react.svg", color: "#61DAFB" },
     { name: "Tailwind CSS", icon: "/icons/tailwindcss.svg", color: "#06B6D4" },
-    { name: "GSAP", icon: "/icons/gsap.svg", color: "#88CE02" },
     { name: "Three.js", icon: "/icons/threejs.svg", color: "#000000" },
-    { name: "Vue.js", icon: "/icons/vuedotjs.svg", color: "#4FC08D" },
     { name: "Figma", icon: "/icons/figma.svg", color: "#F24E1E" },
 ];
 
 export const techOrbitRow2: TechOrbitItem[] = [
-    { name: "PostgreSQL", icon: "/icons/postgresql.svg", color: "#4169E1" },
-    { name: "MongoDB", icon: "/icons/mongodb.svg", color: "#47A248" },
+    { name: "VS Code", icon: "/icons/visualstudiocode.svg", color: "#007ACC" },
     { name: "Supabase", icon: "/icons/supabase.svg", color: "#3ECF8E" },
-    { name: "Firebase", icon: "/icons/firebase.svg", color: "#FFCA28" },
     { name: "Git", icon: "/icons/git.svg", color: "#F05032" },
     { name: "GitHub", icon: "/icons/github.svg", color: "#181717" },
     { name: "Vercel", icon: "/icons/vercel.svg", color: "#000000" },
-    { name: "Docker", icon: "/icons/docker.svg", color: "#2496ED" },
-    { name: "Python", icon: "/icons/python.svg", color: "#3776AB" },
-    { name: "MySQL", icon: "/icons/mysql.svg", color: "#4479A1" },
-    { name: "VS Code", icon: "/icons/visualstudiocode.svg", color: "#007ACC" },
+    { name: "Photoshop", icon: "/icons/photoshop.svg", color: "#31A8FF" },
+    { name: "Illustrator", icon: "/icons/illustrator.svg", color: "#FF9A00" },
+    { name: "PostgreSQL", icon: "/icons/postgresql.svg", color: "#4169E1" },
 ];

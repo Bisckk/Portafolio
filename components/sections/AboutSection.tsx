@@ -124,7 +124,7 @@ export function AboutSection() {
 
                 .cyber-section-tag {
                     font-family: 'Space Mono', monospace;
-                    font-size: 0.7rem;
+                    font-size: 0.85rem;
                     letter-spacing: 0.35em;
                     color: #CC2200;
                     text-transform: uppercase;
@@ -316,16 +316,10 @@ export function AboutSection() {
             {/* Top separator */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 max-w-4xl h-px bg-gradient-to-r from-transparent via-[#CC2200]/15 to-transparent" />
 
-            <div className="relative z-10 max-w-7xl mx-auto">
-                {/* ── Section Tag ── */}
-                <div className="animate-text cyber-section-tag mb-16" ref={textRef}>
-                    {t("section_label")}
-                </div>
-
-                <div className="grid md:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-start">
-                    {/* ═══ LEFT — Profile Image with Glitch ASCII ═══ */}
-                    <div ref={imgRef} className="flex justify-center md:justify-start">
-                        <GlitchAsciiImage />
+            <div className="relative z-10 max-w-7xl mx-auto" ref={textRef}>
+                <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                    <div ref={imgRef} className="flex flex-col items-center md:items-start w-full max-w-[540px] mx-auto md:mx-0">
+                        <GlitchAsciiImage title={t("section_label")} />
                     </div>
 
                     {/* ═══ RIGHT — Content ═══ */}

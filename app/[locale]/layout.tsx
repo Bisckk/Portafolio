@@ -22,6 +22,9 @@ export const metadata: Metadata = {
     keywords: ["Frontend Developer", "React", "Next.js", "TypeScript", "GSAP", "Three.js", "Portfolio"],
     authors: [{ name: "Bismarck Barrios" }],
     creator: "Bismarck Barrios",
+    icons: {
+        icon: "/LOGO.png",
+    },
     openGraph: {
         type: "website",
         locale: "es_ES",
