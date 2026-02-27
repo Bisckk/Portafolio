@@ -43,22 +43,20 @@ function ParticleColumn({ title, subtitle, cta, shape, color, count, onClick }: 
             ctx = gsap.context(() => {
                 const elements = contentRef.current?.querySelectorAll(".pcol-animate");
                 if (elements && elements.length > 0) {
-                    gsap.fromTo(elements,
-                        { y: 30, opacity: 0, filter: "blur(8px)" },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            filter: "blur(0px)",
-                            stagger: 0.15,
-                            duration: 1,
-                            ease: "power3.out",
-                            scrollTrigger: {
-                                trigger: contentRef.current,
-                                start: "top 80%",
-                                once: true
-                            }
-                        }
-                    );
+                    gsap.set(elements, { y: 30, opacity: 0, filter: "blur(8px)" });
+                    let solAnimated = false;
+                    const runSolAnim = () => {
+                        if (solAnimated) return;
+                        solAnimated = true;
+                        gsap.to(elements, { y: 0, opacity: 1, filter: "blur(0px)", stagger: 0.15, duration: 1, ease: "power3.out" });
+                    };
+                    ScrollTrigger.create({
+                        trigger: contentRef.current,
+                        start: "top 80%",
+                        once: true,
+                        onEnter: runSolAnim,
+                        onLeave: runSolAnim
+                    });
                 }
             }, contentRef);
         };

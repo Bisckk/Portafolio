@@ -11,9 +11,12 @@ export function LanguageToggle() {
     const [isPending, startTransition] = useTransition();
 
     const switchLocale = (next: string) => {
-        startTransition(() => {
-            router.replace(pathname, { locale: next });
-        });
+        // Obtenemos la ruta actual sin el locale (ej: /es/about -> /about)
+        const currentPath = window.location.pathname;
+        const newPath = currentPath.replace(`/${locale}`, `/${next}`);
+
+        // Forzamos la recarga al nuevo idioma para que GSAP recalcule todo desde el inicio
+        window.location.href = newPath;
     };
 
     const isES = locale === "es";

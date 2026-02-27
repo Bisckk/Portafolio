@@ -22,26 +22,22 @@ export function StudiesSection() {
             ctx = gsap.context(() => {
                 const studyCards = sectionRef.current?.querySelectorAll(".study-card");
                 if (studyCards && studyCards.length > 0) {
-                    gsap.fromTo(studyCards,
-                        { y: 40, opacity: 0, filter: "blur(10px)" },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            filter: "blur(0px)",
-                            stagger: 0.15,
-                            duration: 1.2,
-                            ease: "power3.out",
-                            scrollTrigger: {
-                                trigger: sectionRef.current,
-                                start: "top 75%",
-                                once: true
-                            }
-                        }
-                    );
+                    gsap.set(studyCards, { y: 40, opacity: 0, filter: "blur(10px)" });
+                    let stdAnimated = false;
+                    const runStdAnim = () => {
+                        if (stdAnimated) return;
+                        stdAnimated = true;
+                        gsap.to(studyCards, { y: 0, opacity: 1, filter: "blur(0px)", stagger: 0.15, duration: 1.2, ease: "power3.out" });
+                    };
+                    ScrollTrigger.create({
+                        trigger: sectionRef.current,
+                        start: "top 75%",
+                        once: true,
+                        onEnter: runStdAnim,
+                        onLeave: runStdAnim
+                    });
                 }
             }, sectionRef);
-
-            ScrollTrigger.refresh();
         };
         init();
 

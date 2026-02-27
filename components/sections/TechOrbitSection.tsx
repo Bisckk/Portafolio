@@ -158,27 +158,22 @@ export function TechOrbitSection() {
             ctx = gsap.context(() => {
                 const elements = sectionRef.current?.querySelectorAll(".orbit-fade");
                 if (elements && elements.length > 0) {
-                    gsap.fromTo(elements,
-                        { y: 40, opacity: 0, scale: 0.95, filter: "blur(10px)" },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            scale: 1,
-                            filter: "blur(0px)",
-                            stagger: 0.15,
-                            duration: 1.2,
-                            ease: "power3.out",
-                            scrollTrigger: {
-                                trigger: sectionRef.current,
-                                start: "top 75%",
-                                once: true
-                            }
-                        }
-                    );
+                    gsap.set(elements, { y: 40, opacity: 0, scale: 0.95, filter: "blur(10px)" });
+                    let orbitAnimated = false;
+                    const runOrbitAnim = () => {
+                        if (orbitAnimated) return;
+                        orbitAnimated = true;
+                        gsap.to(elements, { y: 0, opacity: 1, scale: 1, filter: "blur(0px)", stagger: 0.15, duration: 1.2, ease: "power3.out" });
+                    };
+                    ScrollTrigger.create({
+                        trigger: sectionRef.current,
+                        start: "top 75%",
+                        once: true,
+                        onEnter: runOrbitAnim,
+                        onLeave: runOrbitAnim
+                    });
                 }
             }, sectionRef);
-
-            ScrollTrigger.refresh();
         };
         init();
 

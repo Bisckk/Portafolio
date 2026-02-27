@@ -45,22 +45,20 @@ export function AboutSection() {
                 // Text reveal animations
                 if (textRef.current) {
                     const elements = textRef.current.querySelectorAll(".animate-text");
-                    gsap.fromTo(elements,
-                        { y: 40, opacity: 0, filter: "blur(10px)" },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            filter: "blur(0px)",
-                            stagger: 0.12,
-                            duration: 1,
-                            ease: "power3.out",
-                            scrollTrigger: {
-                                trigger: sectionRef.current,
-                                start: "top 65%",
-                                once: true,
-                            }
-                        }
-                    );
+                    gsap.set(elements, { y: 40, opacity: 0, filter: "blur(10px)" });
+                    let textAnimated = false;
+                    const runTextAnim = () => {
+                        if (textAnimated) return;
+                        textAnimated = true;
+                        gsap.to(elements, { y: 0, opacity: 1, filter: "blur(0px)", stagger: 0.12, duration: 1, ease: "power3.out" });
+                    };
+                    ScrollTrigger.create({
+                        trigger: sectionRef.current,
+                        start: "top 65%",
+                        once: true,
+                        onEnter: runTextAnim,
+                        onLeave: runTextAnim
+                    });
                 }
 
                 // Stats counter animation
@@ -72,17 +70,15 @@ export function AboutSection() {
                         start: "top 80%",
                         once: true,
                         onEnter: () => {
-                            gsap.fromTo(statCards,
-                                { y: 25, opacity: 0, filter: "blur(6px)" },
-                                {
-                                    y: 0,
-                                    opacity: 1,
-                                    filter: "blur(0px)",
-                                    stagger: 0.1,
-                                    duration: 0.8,
-                                    ease: "power3.out",
-                                }
-                            );
+                            gsap.set(statCards, { y: 25, opacity: 0, filter: "blur(6px)" });
+                            gsap.to(statCards, {
+                                y: 0,
+                                opacity: 1,
+                                filter: "blur(0px)",
+                                stagger: 0.1,
+                                duration: 0.8,
+                                ease: "power3.out"
+                            });
 
                             countersRef.current.forEach((el, i) => {
                                 if (!el) return;
@@ -102,8 +98,6 @@ export function AboutSection() {
                     });
                 }
             }, sectionRef);
-
-            ScrollTrigger.refresh();
         };
 
         init();

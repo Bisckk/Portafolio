@@ -41,26 +41,22 @@ export function ExperienceSection() {
                 if (timelineRef.current) {
                     const cards = timelineRef.current.querySelectorAll(".exp-card");
 
-                    gsap.fromTo(cards,
-                        { x: -40, opacity: 0, filter: "blur(10px)" },
-                        {
-                            x: 0,
-                            opacity: 1,
-                            filter: "blur(0px)",
-                            stagger: 0.2,
-                            duration: 1.2,
-                            ease: "power3.out",
-                            scrollTrigger: {
-                                trigger: timelineRef.current,
-                                start: "top 80%",
-                                once: true,
-                            }
-                        }
-                    );
+                    gsap.set(cards, { x: -40, opacity: 0, filter: "blur(10px)" });
+                    let expAnimated = false;
+                    const runExpAnim = () => {
+                        if (expAnimated) return;
+                        expAnimated = true;
+                        gsap.to(cards, { x: 0, opacity: 1, filter: "blur(0px)", stagger: 0.2, duration: 1.2, ease: "power3.out" });
+                    };
+                    ScrollTrigger.create({
+                        trigger: timelineRef.current,
+                        start: "top 80%",
+                        once: true,
+                        onEnter: runExpAnim,
+                        onLeave: runExpAnim
+                    });
                 }
             }, sectionRef);
-
-            ScrollTrigger.refresh();
         };
         init();
 
