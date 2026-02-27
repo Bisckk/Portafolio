@@ -9,9 +9,7 @@ export function PageLoader() {
     useEffect(() => {
         const fadeTimer = setTimeout(() => {
             setFadeOut(true);
-            const hideStyle = document.getElementById("loader-hide");
-            if (hideStyle) hideStyle.remove();
-            document.body.style.overflow = "";
+            document.body.classList.remove("loading-locked");
         }, 1500);
 
         const removeTimer = setTimeout(() => setVisible(false), 2100);

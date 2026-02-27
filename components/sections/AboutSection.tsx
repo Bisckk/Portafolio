@@ -19,91 +19,99 @@ export function AboutSection() {
     const countersRef = useRef<(HTMLSpanElement | null)[]>([]);
 
     useEffect(() => {
+        let ctx: any;
+        let isMounted = true;
+
         const init = async () => {
             const { gsap, ScrollTrigger } = await import("@/lib/gsap-config");
 
-            if (!sectionRef.current) return;
+            if (!isMounted || !sectionRef.current) return;
 
-            // Parallax on the image
-            if (imgRef.current) {
-                gsap.to(imgRef.current, {
-                    yPercent: -12,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top bottom",
-                        end: "bottom top",
-                        scrub: true,
-                    },
-                });
-            }
+            ctx = gsap.context(() => {
+                // Parallax on the image
+                if (imgRef.current) {
+                    gsap.to(imgRef.current, {
+                        yPercent: -12,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: sectionRef.current,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true,
+                        },
+                    });
+                }
 
-            // Text reveal animations
-            if (textRef.current) {
-                const elements = textRef.current.querySelectorAll(".animate-text");
-                gsap.set(elements, { y: 40, opacity: 0, filter: "blur(10px)" });
-
-                ScrollTrigger.create({
-                    trigger: sectionRef.current,
-                    start: "top 65%",
-                    onEnter: () => {
-                        gsap.to(elements, {
+                // Text reveal animations
+                if (textRef.current) {
+                    const elements = textRef.current.querySelectorAll(".animate-text");
+                    gsap.fromTo(elements,
+                        { y: 40, opacity: 0, filter: "blur(10px)" },
+                        {
                             y: 0,
                             opacity: 1,
                             filter: "blur(0px)",
                             stagger: 0.12,
                             duration: 1,
                             ease: "power3.out",
-                        });
-                    },
-                    once: true,
-                });
-            }
+                            scrollTrigger: {
+                                trigger: sectionRef.current,
+                                start: "top 65%",
+                                once: true,
+                            }
+                        }
+                    );
+                }
 
-            // Stats counter animation — lightweight text-based approach
-            if (statsRef.current) {
-                const statCards = statsRef.current.querySelectorAll(".cyber-stat");
-                gsap.set(statCards, { y: 25, opacity: 0, filter: "blur(6px)" });
+                // Stats counter animation
+                if (statsRef.current) {
+                    const statCards = statsRef.current.querySelectorAll(".cyber-stat");
 
-                ScrollTrigger.create({
-                    trigger: statsRef.current,
-                    start: "top 80%",
-                    onEnter: () => {
-                        // Fade in the stat cards
-                        gsap.to(statCards, {
-                            y: 0,
-                            opacity: 1,
-                            filter: "blur(0px)",
-                            stagger: 0.1,
-                            duration: 0.8,
-                            ease: "power3.out",
-                        });
+                    ScrollTrigger.create({
+                        trigger: statsRef.current,
+                        start: "top 80%",
+                        once: true,
+                        onEnter: () => {
+                            gsap.fromTo(statCards,
+                                { y: 25, opacity: 0, filter: "blur(6px)" },
+                                {
+                                    y: 0,
+                                    opacity: 1,
+                                    filter: "blur(0px)",
+                                    stagger: 0.1,
+                                    duration: 0.8,
+                                    ease: "power3.out",
+                                }
+                            );
 
-                        // Animate each counter: just update textContent each frame
-                        countersRef.current.forEach((el, i) => {
-                            if (!el) return;
-                            const target = stats[i].value;
-                            const counter = { value: 0 };
-
-                            gsap.to(counter, {
-                                value: target,
-                                duration: 2.5 + (i * 0.6),
-                                ease: "power2.out",
-                                snap: { value: 1 },
-                                onUpdate: () => {
-                                    el.textContent = String(Math.round(counter.value));
-                                },
+                            countersRef.current.forEach((el, i) => {
+                                if (!el) return;
+                                const target = stats[i].value;
+                                const counter = { value: 0 };
+                                gsap.to(counter, {
+                                    value: target,
+                                    duration: 2.5 + (i * 0.6),
+                                    ease: "power2.out",
+                                    snap: { value: 1 },
+                                    onUpdate: () => {
+                                        el.textContent = String(Math.round(counter.value));
+                                    },
+                                });
                             });
-                        });
-                    },
-                    once: true,
-                });
-            }
+                        }
+                    });
+                }
+            }, sectionRef);
 
             ScrollTrigger.refresh();
         };
 
         init();
+
+        return () => {
+            isMounted = false;
+            if (ctx) ctx.revert();
+        };
     }, []);
 
     return (

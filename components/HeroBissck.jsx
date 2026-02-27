@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import "./HeroBissck.css";
 
 function GlitchText({ text }) {
   return (
@@ -137,52 +138,99 @@ export default function HeroBissck() {
 
         ctx.clearRect(0, 0, w, h);
 
+        // ── Cover Image Calculation (avoid distortion on mobile/different aspects) ──
+        const imgW = imgBW.width;
+        const imgH = imgBW.height;
+        let scale, drawX, drawY;
+
+        if (w < h) {
+          // Vista Portrait (Móvil): Evitar el zoom extremo
+          // Escalamos basándonos en el ancho pero con un multiplicador moderado
+          scale = Math.max((w / imgW) * 1.8, (h / imgH) * 0.6);
+          const drawW = imgW * scale;
+          const drawH = imgH * scale;
+          drawX = (w - drawW) / 2;
+          drawY = h * 0.05; // Anclar más hacia arriba
+        } else {
+          // Vista Desktop: object-fit cover clásico
+          scale = Math.max(w / imgW, h / imgH);
+          const drawW = imgW * scale;
+          const drawH = imgH * scale;
+          drawX = (w - drawW) / 2;
+          drawY = (h - drawH) / 2;
+        }
+
+        const drawW = imgW * scale;
+        const drawH = imgH * scale;
+
+        // ── Pre-rendered color image buffer to improve 60FPS performance ──
+        if (!window.__colorBufCanvas) {
+          window.__colorBufCanvas = document.createElement("canvas");
+          window.__colorBufCtx = window.__colorBufCanvas.getContext("2d", { willReadFrequently: false });
+          window.__lastW = 0;
+          window.__lastH = 0;
+        }
+        const colorBufCanvas = window.__colorBufCanvas;
+        const colorBufCtx = window.__colorBufCtx;
+
+        if (w !== window.__lastW || h !== window.__lastH) {
+          colorBufCanvas.width = w;
+          colorBufCanvas.height = h;
+          colorBufCtx.clearRect(0, 0, w, h);
+
+          // A: Draw color image with boosted contrast & saturation
+          colorBufCtx.filter = "contrast(1.3) saturate(1.8)";
+          colorBufCtx.drawImage(imgColor, drawX, drawY, drawW, drawH);
+          colorBufCtx.filter = "none";
+
+          // B: Aggressive red boost — color-dodge (strong)
+          colorBufCtx.save();
+          colorBufCtx.globalAlpha = 0.35;
+          colorBufCtx.globalCompositeOperation = "color-dodge";
+          colorBufCtx.fillStyle = "#CC2200";
+          colorBufCtx.fillRect(0, 0, w, h);
+          colorBufCtx.restore();
+
+          // C: Red overlay for intensity
+          colorBufCtx.save();
+          colorBufCtx.globalAlpha = 0.25;
+          colorBufCtx.globalCompositeOperation = "overlay";
+          colorBufCtx.fillStyle = "#DD1100";
+          colorBufCtx.fillRect(0, 0, w, h);
+          colorBufCtx.restore();
+
+          // D: Extra warmth via soft-light (high)
+          colorBufCtx.save();
+          colorBufCtx.globalAlpha = 0.22;
+          colorBufCtx.globalCompositeOperation = "soft-light";
+          colorBufCtx.fillStyle = "#FF4400";
+          colorBufCtx.fillRect(0, 0, w, h);
+          colorBufCtx.restore();
+
+          window.__lastW = w;
+          window.__lastH = h;
+        }
+
         // ═══ 1. B&W background (always drawn) ═══
-        ctx.drawImage(imgBW, 0, 0, w, h);
+        ctx.drawImage(imgBW, drawX, drawY, drawW, drawH);
 
         // ═══ 2. Soft reveal — color image with red boost ═══
         if (revealAlpha > 0.005 && smoothMouse.x > 0) {
-          revealCtx.clearRect(0, 0, w, h);
-
-          // A: Draw color image with boosted contrast & saturation
-          revealCtx.filter = "contrast(1.3) saturate(1.8)";
-          revealCtx.drawImage(imgColor, 0, 0, w, h);
-          revealCtx.filter = "none";
-
-          // B: Aggressive red boost — color-dodge (strong)
-          revealCtx.save();
-          revealCtx.globalAlpha = 0.35;
-          revealCtx.globalCompositeOperation = "color-dodge";
-          revealCtx.fillStyle = "#CC2200";
-          revealCtx.fillRect(0, 0, w, h);
-          revealCtx.restore();
-
-          // C: Red overlay for intensity
-          revealCtx.save();
-          revealCtx.globalAlpha = 0.25;
-          revealCtx.globalCompositeOperation = "overlay";
-          revealCtx.fillStyle = "#DD1100";
-          revealCtx.fillRect(0, 0, w, h);
-          revealCtx.restore();
-
-          // D: Extra warmth via soft-light (high)
-          revealCtx.save();
-          revealCtx.globalAlpha = 0.22;
-          revealCtx.globalCompositeOperation = "soft-light";
-          revealCtx.fillStyle = "#FF4400";
-          revealCtx.fillRect(0, 0, w, h);
-          revealCtx.restore();
-
-          // C: Mask with a single soft radial gradient (destination-in)
-          revealCtx.save();
-          revealCtx.globalCompositeOperation = "destination-in";
-
+          // Optimization: Only clear and redraw the bounding box of the reveal
           const r = REVEAL_RADIUS;
           const mx = smoothMouse.x;
           const my = smoothMouse.y;
 
+          const boxX = Math.max(0, mx - r - 10);
+          const boxY = Math.max(0, my - r - 10);
+          const boxW = r * 2 + 20;
+          const boxH = r * 2 + 20;
+
+          revealCtx.clearRect(boxX, boxY, boxW, boxH);
+
+          // Draw the smooth radial mask
+          revealCtx.save();
           const grad = revealCtx.createRadialGradient(mx, my, 0, mx, my, r);
-          // Very soft gradient — lots of stops for smooth falloff
           const a = revealAlpha;
           grad.addColorStop(0, `rgba(255,255,255,${(a * 0.85).toFixed(3)})`);
           grad.addColorStop(0.25, `rgba(255,255,255,${(a * 0.7).toFixed(3)})`);
@@ -192,21 +240,33 @@ export default function HeroBissck() {
           grad.addColorStop(1, "rgba(255,255,255,0)");
 
           revealCtx.fillStyle = grad;
-          revealCtx.fillRect(mx - r, my - r, r * 2, r * 2);
+          revealCtx.fillRect(boxX, boxY, boxW, boxH);
 
+          // source-in: keeps the colorBuf ONLY where the mask was drawn
+          revealCtx.globalCompositeOperation = "source-in";
+          revealCtx.drawImage(colorBufCanvas, boxX, boxY, boxW, boxH, boxX, boxY, boxW, boxH);
           revealCtx.restore();
 
-          // D: Composite onto main canvas
-          ctx.drawImage(revealCanvas, 0, 0);
+          // D: Composite onto main canvas in the restricted area
+          ctx.drawImage(revealCanvas, boxX, boxY, boxW, boxH, boxX, boxY, boxW, boxH);
         }
 
         // ═══ 3. Vignette ═══
         ctx.fillStyle = vigGrad;
         ctx.fillRect(0, 0, w, h);
 
-        // ═══ 4. Bottom fade ═══
-        ctx.fillStyle = fadeGrad;
-        ctx.fillRect(0, 0, w, h);
+        // ═══ 4. Bottom edge Blur / Fade ═══
+        // Dinamically blend the bottom edge of the image to #080808 (var(--black))
+        const imgBottom = drawY + drawH;
+        // Empezamos a difuminar 150px antes del corte, y llega al 100% de intensidad justo en el corte
+        const bottomFade = ctx.createLinearGradient(0, imgBottom - 150, 0, imgBottom);
+        bottomFade.addColorStop(0, "rgba(8,8,8,0)");
+        bottomFade.addColorStop(1, "rgba(8,8,8,1)");
+
+        ctx.fillStyle = bottomFade;
+        // Rellenamos desde donde empieza el difuminado hasta la parte inferior del canvas
+        // Así aseguramos que si sobra canvas por debajo de la foto, quede totalmente negro
+        ctx.fillRect(0, imgBottom - 150, w, h - (imgBottom - 150));
 
         animRef.current = requestAnimationFrame(draw);
       };
@@ -223,199 +283,6 @@ export default function HeroBissck() {
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Space+Mono&display=swap');
-
-        :root {
-          --red:     #CC2200;
-          --red-dim: #7a1500;
-          --black:   #080808;
-          --white:   #f0ede8;
-        }
-
-        /* ── Hero ── */
-        .hero {
-          position: relative;
-          width: 100%;
-          min-height: 100svh;
-          background: var(--black);
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          overflow: hidden;
-          font-family: 'Space Mono', monospace;
-        }
-
-        .hero-canvas {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 1;
-          display: block;
-        }
-
-        .hero-grain {
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-          opacity: 0.22;
-          z-index: 2;
-          pointer-events: none;
-          mix-blend-mode: overlay;
-        }
-
-        /* ── Content ── */
-        .hero-content {
-          position: relative;
-          z-index: 10;
-          padding: clamp(2rem, 6vw, 5rem);
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-          max-width: 1400px;
-          width: 100%;
-        }
-
-        .hero-tag {
-          font-size: clamp(0.6rem, 1.2vw, 0.8rem);
-          letter-spacing: 0.35em;
-          text-transform: uppercase;
-          color: var(--red);
-          opacity: 0;
-          animation: fadeUp 0.8s ease 0.2s forwards;
-        }
-
-        .hero-heading {
-          font-family: 'Unbounded', sans-serif;
-          font-weight: 900;
-          font-size: clamp(3.5rem, 11vw, 10rem);
-          line-height: 0.9;
-          color: var(--white);
-          text-transform: uppercase;
-          letter-spacing: -0.02em;
-          opacity: 0;
-          animation: fadeUp 0.9s ease 0.4s forwards;
-        }
-
-        .glitch { position: relative; display: inline-block; }
-        .glitch::before, .glitch::after {
-          content: attr(data-text);
-          position: absolute; top: 0; left: 0;
-          width: 100%; height: 100%;
-        }
-        .glitch::before {
-          color: var(--red);
-          clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
-          animation: glitch1 5s infinite step-start;
-        }
-        .glitch::after {
-          color: #00e5ff;
-          clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
-          animation: glitch2 5s infinite step-start;
-        }
-        @keyframes glitch1 {
-          0%,90%,100% { transform:translate(0);opacity:0; }
-          92% { transform:translate(-4px,2px);opacity:.8; }
-          94% { transform:translate(4px,-2px);opacity:.8; }
-          96% { transform:translate(0);opacity:0; }
-        }
-        @keyframes glitch2 {
-          0%,90%,100% { transform:translate(0);opacity:0; }
-          93% { transform:translate(4px,-2px);opacity:.7; }
-          95% { transform:translate(-4px,2px);opacity:.7; }
-          97% { transform:translate(0);opacity:0; }
-        }
-
-        .hero-sub {
-          display: flex; align-items: center; gap: 2rem;
-          opacity: 0; animation: fadeUp 0.9s ease 0.65s forwards;
-          flex-wrap: wrap;
-        }
-        .hero-sub p {
-          font-size: clamp(0.75rem, 1.4vw, 0.9rem);
-          color: rgba(240,237,232,0.45);
-          max-width: 36ch; line-height: 1.7;
-        }
-        .hero-divider { width:1px; height:3rem; background:var(--red-dim); flex-shrink:0; }
-
-        .hero-cta {
-          display: inline-flex; align-items: center; gap: 0.75rem;
-          padding: 0.9rem 2rem;
-          border: 1px solid var(--red);
-          color: var(--white);
-          font-family: 'Space Mono', monospace;
-          font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
-          text-decoration: none; position: relative; overflow: hidden;
-          transition: color 0.3s ease; background: transparent;
-        }
-        .hero-cta::before {
-          content:''; position:absolute; inset:0;
-          background:var(--red); transform:translateX(-101%);
-          transition:transform 0.35s cubic-bezier(0.77,0,0.18,1);
-        }
-        .hero-cta:hover::before { transform:translateX(0); }
-        .hero-cta span, .hero-cta .arrow { position:relative; z-index:1; }
-        .hero-cta .arrow { transition:transform 0.3s ease; }
-        .hero-cta:hover .arrow { transform:translateX(4px); }
-
-        .hero-stats {
-          display:flex; gap:clamp(2rem,5vw,5rem);
-          opacity:0; animation:fadeUp 0.9s ease 0.85s forwards;
-          padding-top:0.5rem;
-          border-top:1px solid rgba(204,34,0,0.15);
-        }
-        .stat-number {
-          font-family:'Unbounded',sans-serif;
-          font-size:clamp(1.4rem,3vw,2.2rem);
-          font-weight:700; color:var(--white); line-height:1;
-        }
-        .stat-label {
-          font-size:0.65rem; letter-spacing:0.2em;
-          text-transform:uppercase; color:var(--red); margin-top:0.3rem;
-        }
-
-        .scroll-hint {
-          position:absolute; bottom:2.5rem; right:clamp(2rem,5vw,4rem);
-          z-index:10; display:flex; flex-direction:column;
-          align-items:center; gap:0.5rem;
-          opacity:0; animation:fadeIn 1s ease 1.2s forwards;
-        }
-        .scroll-hint span {
-          font-size:0.6rem; letter-spacing:0.25em;
-          text-transform:uppercase; color:rgba(240,237,232,0.3);
-          writing-mode:vertical-rl;
-        }
-        .scroll-line {
-          width:1px; height:3rem;
-          background:linear-gradient(to bottom,var(--red),transparent);
-          animation:scrollPulse 2s ease-in-out infinite;
-        }
-        @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
-
-        .accent-line {
-          position:absolute; top:0; left:0;
-          width:100%; height:2px;
-          background:linear-gradient(to right,var(--red),transparent 60%);
-          z-index:10;
-        }
-
-        .mouse-hint {
-          position:absolute; top:2rem; right:clamp(2rem,5vw,4rem);
-          z-index:10; font-size:0.6rem; letter-spacing:0.2em;
-          text-transform:uppercase; color:rgba(240,237,232,0.2);
-          opacity:0; animation:fadeIn 1s ease 1.8s forwards;
-        }
-
-        @keyframes fadeUp {
-          from { opacity:0; transform:translateY(24px); }
-          to   { opacity:1; transform:translateY(0); }
-        }
-        @keyframes fadeIn {
-          from { opacity:0; } to { opacity:1; }
-        }
-      `}</style>
-
       <section id="hero" className="hero" ref={heroRef}>
         {mounted && <canvas className="hero-canvas" ref={canvasRef} />}
 

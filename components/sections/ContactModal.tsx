@@ -68,25 +68,25 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         }
     };
 
-    const inputCls = `w-full px-4 py-3 rounded-xl bg-white/5 border text-white text-sm
-    placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50
+    const inputCls = `w-full px-4 py-3 rounded-none bg-[#0a0a0a] border-t border-l border-r border-b-2 border-white/10 text-white font-mono text-xs tracking-wider uppercase
+    placeholder-white/20 focus:outline-none focus:border-b-[#CC2200] focus:bg-[#CC2200]/5
     transition-all duration-200`;
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title={t("modal_title")} size="lg">
             {status === "success" ? (
-                <div className="flex flex-col items-center gap-4 py-12 text-center">
-                    <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
-                        <CheckCircle size={32} className="text-green-400" />
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <div className="w-20 h-20 rounded-none bg-[#CC2200]/10 border border-[#CC2200]/30 shadow-[0_0_20px_rgba(204,34,0,0.2)] flex items-center justify-center transform rotate-45">
+                        <CheckCircle size={32} className="text-[#CC2200] -rotate-45" />
                     </div>
-                    <p className="text-white font-medium">{t("success")}</p>
+                    <p className="text-[#CC2200] font-mono font-bold uppercase tracking-[0.2em] mt-4">&gt;_ {t("success")}</p>
                 </div>
             ) : status === "error" ? (
-                <div className="flex flex-col items-center gap-4 py-12 text-center">
-                    <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center">
-                        <AlertCircle size={32} className="text-red-400" />
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                    <div className="w-20 h-20 rounded-none bg-red-500/10 border border-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center justify-center transform rotate-45">
+                        <AlertCircle size={32} className="text-red-500 -rotate-45" />
                     </div>
-                    <p className="text-white/70 text-sm">{t("error")}</p>
+                    <p className="text-red-500 font-mono font-bold uppercase tracking-[0.2em] mt-4">&gt;_ SYSTEM ERROR: {t("error")}</p>
                 </div>
             ) : (
                 <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
@@ -153,21 +153,22 @@ export function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                     <button
                         type="submit"
                         disabled={status === "sending"}
-                        className="mt-2 flex items-center justify-center gap-2 px-8 py-3.5
-              rounded-full bg-blue-500 hover:bg-blue-400 disabled:opacity-50
-              disabled:cursor-not-allowed text-white text-sm font-semibold
-              transition-all duration-200 focus-visible:outline-none
-              focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        className="mt-6 flex items-center justify-center gap-2 px-8 py-4
+              rounded-none bg-[#CC2200]/10 hover:bg-[#CC2200] border-2 border-[#CC2200]/50 hover:border-[#CC2200]
+              disabled:opacity-50 disabled:cursor-not-allowed text-[#f0ede8] text-xs font-mono font-bold tracking-[0.2em] uppercase
+              transition-all duration-300 shadow-[0_0_15px_rgba(204,34,0,0.1)] hover:shadow-[0_0_30px_rgba(204,34,0,0.4)]
+              focus-visible:outline-none focus-visible:bg-[#CC2200]"
+                        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%)" }}
                     >
                         {status === "sending" ? (
                             <>
-                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                {t("sending")}
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-[#CC2200] rounded-none animate-spin" />
+                                &gt;_ {t("sending")}
                             </>
                         ) : (
                             <>
-                                <Send size={15} />
-                                {t("submit")}
+                                <Send size={15} className="mr-2" />
+                                [ {t("submit")} ]
                             </>
                         )}
                     </button>

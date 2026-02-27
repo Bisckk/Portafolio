@@ -42,22 +42,27 @@ function TechCard({ tech, setTooltip }: { tech: typeof techOrbitRow1[0], setTool
             style={{ perspective: "1000px" }}
         >
             <div
-                className="w-20 h-20 md:w-28 md:h-28 rounded-[1.5rem] flex items-center justify-center
-                    backdrop-blur-md shadow-sm overflow-hidden
+                className="w-20 h-20 md:w-28 md:h-28 rounded-none flex items-center justify-center
+                    backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden
                     transition-all ease-out"
                 style={{
-                    transitionDuration: isHovered ? "50ms" : "500ms", /* Fast on track, slow on release */
+                    transitionDuration: isHovered ? "50ms" : "500ms",
                     transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovered ? 1.15 : 1})`,
-                    boxShadow: isHovered ? "0 20px 40px -10px rgba(204,34,0,0.5)" : "0 4px 10px rgba(0,0,0,0.1)",
-                    borderColor: isHovered ? "rgba(204,34,0,0.5)" : "rgba(255,255,255,0.03)",
-                    backgroundColor: isHovered ? "rgba(204,34,0,0.08)" : "rgba(255,255,255,0.02)",
-                    borderWidth: "1px",
-                    borderStyle: "solid"
+                    boxShadow: isHovered ? "0 20px 40px -10px rgba(204,34,0,0.5)" : "0 4px 10px rgba(0,0,0,0.3)",
+                    borderColor: isHovered ? "#CC2200" : "rgba(204,34,0,0.2)",
+                    backgroundColor: isHovered ? "rgba(204,34,0,0.15)" : "#0d0d0d",
+                    borderBottomWidth: isHovered ? "3px" : "1px",
+                    borderLeftWidth: "1px",
+                    borderRightWidth: "1px",
+                    borderTopWidth: "1px",
+                    borderStyle: "solid",
+                    clipPath: "polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))"
                 }}
             >
-                {/* Internal accent glow */}
+                {/* Internal accent glow & scanlines */}
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(204,34,0,0.05)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none opacity-30 group-hover:opacity-100 transition-opacity" />
                 <div
-                    className="absolute inset-0 bg-gradient-to-tr from-[#CC2200]/0 to-[#CC2200]/25 transition-opacity duration-500 rounded-[1.5rem] pointer-events-none"
+                    className="absolute inset-0 bg-gradient-to-tr from-[#CC2200]/0 to-[#CC2200]/25 transition-opacity duration-500 pointer-events-none"
                     style={{ opacity: isHovered ? 1 : 0 }}
                 />
 
@@ -110,16 +115,20 @@ function OrbitTrack({ items, direction }: OrbitTrackProps) {
                 ))}
             </div>
 
-            {/* Tooltip */}
+            {/* Tooltip Cyberpunk */}
             {tooltip && (
                 <div
-                    className="fixed z-50 px-4 py-2 text-xs font-semibold rounded-xl
-                    bg-[#080808]/95 text-[#CC2200] border border-[#CC2200]/30 shadow-[0_4px_20px_rgba(204,34,0,0.3)]
-                    backdrop-blur-md pointer-events-none transform -translate-x-1/2 -translate-y-[120%] tracking-[0.1em] uppercase"
-                    style={{ left: tooltip.x, top: tooltip.y }}
+                    className="fixed z-50 px-4 py-2 text-[10px] md:text-xs font-mono font-bold rounded-none
+                    bg-[#080808] text-[#CC2200] border border-[#CC2200] shadow-[0_4px_20px_rgba(204,34,0,0.8)]
+                    backdrop-blur-md pointer-events-none transform -translate-x-1/2 -translate-y-[120%] tracking-[0.2em] uppercase"
+                    style={{
+                        left: tooltip.x,
+                        top: tooltip.y,
+                        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%)"
+                    }}
                 >
-                    {tooltip.name}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-[#CC2200]/50" />
+                    &gt;_ {tooltip.name}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-[#CC2200]" />
                 </div>
             )}
 
@@ -139,31 +148,44 @@ export function TechOrbitSection() {
     const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
+        let ctx: any;
+        let isMounted = true;
+
         const init = async () => {
             const { gsap, ScrollTrigger } = await import("@/lib/gsap-config");
-            if (!sectionRef.current) return;
+            if (!isMounted || !sectionRef.current) return;
 
-            const elements = sectionRef.current.querySelectorAll(".orbit-fade");
-            gsap.set(elements, { y: 40, opacity: 0, scale: 0.95, filter: "blur(10px)" });
+            ctx = gsap.context(() => {
+                const elements = sectionRef.current?.querySelectorAll(".orbit-fade");
+                if (elements && elements.length > 0) {
+                    gsap.fromTo(elements,
+                        { y: 40, opacity: 0, scale: 0.95, filter: "blur(10px)" },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            scale: 1,
+                            filter: "blur(0px)",
+                            stagger: 0.15,
+                            duration: 1.2,
+                            ease: "power3.out",
+                            scrollTrigger: {
+                                trigger: sectionRef.current,
+                                start: "top 75%",
+                                once: true
+                            }
+                        }
+                    );
+                }
+            }, sectionRef);
 
-            ScrollTrigger.create({
-                trigger: sectionRef.current,
-                start: "top 75%",
-                onEnter: () => {
-                    gsap.to(elements, {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        filter: "blur(0px)",
-                        stagger: 0.15,
-                        duration: 1.2,
-                        ease: "power3.out",
-                    });
-                },
-                once: true
-            });
+            ScrollTrigger.refresh();
         };
         init();
+
+        return () => {
+            isMounted = false;
+            if (ctx) ctx.revert();
+        };
     }, []);
 
     return (
@@ -175,11 +197,15 @@ export function TechOrbitSection() {
             <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] bg-[#CC2200]/[0.03] rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-[-10%] right-[-5%] w-[700px] h-[700px] bg-[#7a1500]/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
-            <div className="relative z-10 max-w-7xl mx-auto px-6 mb-16 text-center">
-                <p className="orbit-fade text-xs uppercase tracking-[0.4em] text-[#CC2200] mb-6 font-medium">
-                    {t("section_label")}
-                </p>
-                <h2 className="orbit-fade text-4xl sm:text-5xl lg:text-5xl font-bold text-[#f0ede8] tracking-tight">
+            <div className="relative z-10 max-w-7xl mx-auto px-6 mb-16 flex flex-col items-center">
+                <div className="orbit-fade flex items-center justify-center gap-4 mb-6">
+                    <div className="w-12 h-px bg-[#CC2200]" />
+                    <p className="text-xs uppercase tracking-[0.5em] text-[#CC2200] font-mono font-bold">
+                        // {t("section_label")}
+                    </p>
+                    <div className="w-12 h-px bg-[#CC2200]" />
+                </div>
+                <h2 className="orbit-fade text-4xl sm:text-5xl lg:text-6xl font-black text-[#f0ede8] tracking-tighter uppercase" style={{ textShadow: "4px 4px 0px rgba(204,34,0,0.2)" }}>
                     {t("title")}
                 </h2>
             </div>

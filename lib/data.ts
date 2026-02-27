@@ -50,17 +50,17 @@ export interface TechOrbitItem {
 export const experiences: Experience[] = [
     {
         id: "exp-1",
-        company: "Agencia Digital XYZ",
+        company: "AutomatIQ",
         role: "Frontend Developer Senior",
         roleEn: "Senior Frontend Developer",
-        period: "2022 – Presente",
-        description: "Lideré el desarrollo frontend de más de 15 proyectos web para clientes nacionales e internacionales.",
+        period: "2026 – Presente",
+        description: "Co-desarrollé una plataforma SaaS multi-tenant para gestión de préstamos y cobranza, actualmente en fase de pruebas con un cliente real en camino a su comercialización.",
         descriptionEn: "Led frontend development for over 15 web projects for national and international clients.",
         achievements: [
-            "Reduje el tiempo de carga inicial en un 60% mediante code-splitting y lazy loading estratégico",
-            "Implementé sistema de design tokens que redujo el tiempo de desarrollo en un 35%",
-            "Mentoré a 3 desarrolladores junior en mejores prácticas de React y TypeScript",
-            "Integré animaciones GSAP y Three.js que aumentaron el engagement en un 45%",
+            "Implementé arquitectura multi-tenant con aislamiento de datos por negocio y control de acceso por roles (Superadmin / Operativo).",
+            "Desarrollé módulos financieros completos: ciclo de vida de préstamos, control de cuotas, gestión de mora y conciliación de cobros.",
+            "Integré Supabase Auth con middleware de Next.js para autenticación segura y flujos de recuperación de contraseña automatizados.",
+            "Configuré sistema de notificaciones por correo con Nodemailer para eventos críticos de la operación.",
         ],
         achievementsEn: [
             "Reduced initial load time by 60% through strategic code-splitting and lazy loading",
@@ -68,41 +68,19 @@ export const experiences: Experience[] = [
             "Mentored 3 junior developers in React and TypeScript best practices",
             "Integrated GSAP and Three.js animations that increased engagement by 45%",
         ],
-        stack: ["React", "Next.js", "TypeScript", "GSAP", "Three.js", "Tailwind CSS", "GraphQL"],
+        stack: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Material UI", "Node.js", "Nodemailer", "Git"],
         current: true,
     },
     {
         id: "exp-2",
-        company: "StartupTech SRL",
-        role: "Frontend Developer",
-        roleEn: "Frontend Developer",
-        period: "2021 – 2022",
-        description: "Desarrollé la interfaz de una plataforma SaaS de gestión empresarial con más de 5,000 usuarios activos.",
-        descriptionEn: "Developed the interface for a SaaS business management platform with over 5,000 active users.",
-        achievements: [
-            "Construí más de 40 componentes reutilizables con Storybook y TypeScript",
-            "Implementé testing con Jest y React Testing Library alcanzando 85% de cobertura",
-            "Optimicé el rendimiento de la aplicación logrando Lighthouse score > 90",
-            "Diseñé e implementé sistema de autenticación con JWT y refresh tokens",
-        ],
-        achievementsEn: [
-            "Built over 40 reusable components with Storybook and TypeScript",
-            "Implemented testing with Jest and React Testing Library achieving 85% coverage",
-            "Optimized application performance achieving Lighthouse score > 90",
-            "Designed and implemented authentication system with JWT and refresh tokens",
-        ],
-        stack: ["React", "TypeScript", "Redux", "Jest", "Storybook", "Sass", "REST API"],
-    },
-    {
-        id: "exp-3",
         company: "Freelance",
         role: "Desarrollador Web Freelance",
         roleEn: "Freelance Web Developer",
-        period: "2020 – 2021",
+        period: "2025 - 2026",
         description: "Desarrollé sitios y aplicaciones web para pequeñas y medianas empresas.",
         descriptionEn: "Developed websites and web applications for small and medium-sized businesses.",
         achievements: [
-            "Entregué más de 20 proyectos exitosos para clientes locales e internacionales",
+            "Entregué más de 5 proyectos exitosos para clientes locales e internacionales",
             "Implementé e-commerce con integración de pasarelas de pago",
             "Desarrollé landing pages con tasas de conversión superiores al 15%",
         ],
@@ -111,8 +89,30 @@ export const experiences: Experience[] = [
             "Implemented e-commerce with payment gateway integration",
             "Developed landing pages with conversion rates above 15%",
         ],
-        stack: ["HTML", "CSS", "JavaScript", "WordPress", "PHP", "MySQL"],
+        stack: ["HTML", "CSS", "JavaScript", "PHP", "MySQL", "Typescript", "Javascript", "React", "Nextjs", "Supabase", "Threejs", "GSAP"]
     },
+    {
+        id: "exp-3",
+        company: "FREELANCE",
+        role: "Frontend Developer",
+        roleEn: "Frontend Developer",
+        period: "2024 - 2025",
+        description: "Realicé la construcción de interfaces y componentes web para proyectos propios y de práctica, enfocado en consolidar habilidades con tecnologías modernas del ecosistema JavaScript.",
+        descriptionEn: "Developed the interface for a SaaS business management platform with over 5,000 active users.",
+        achievements: [
+            "Desarrollé UIs responsivas con React y TypeScript aplicando principios de diseño de componentes reutilizables.",
+            "Exploré integración con APIs REST y manejo de estado en aplicaciones de mediana complejidad.",
+            "Practiqué workflows profesionales con Git, ESLint y configuración de proyectos con Next.js.",
+            "Apliqué conceptos de autenticación, manejo de sesiones y estructura de proyectos fullstack.",
+        ],
+        achievementsEn: [
+            "Built over 40 reusable components with Storybook and TypeScript",
+            "Implemented testing with Jest and React Testing Library achieving 85% coverage",
+            "Optimized application performance achieving Lighthouse score > 90",
+            "Designed and implemented authentication system with JWT and refresh tokens",
+        ],
+        stack: ["React", "TypeScript", "Supabase", "Nextjs", "Git", "HTML/CSS", "JavaScript"],
+    }
 ];
 
 // ─── PROJECTS DATA ─────────────────────────────────────────────────────────
@@ -188,12 +188,12 @@ export const projects: Project[] = [
 export const studies: Study[] = [
     {
         id: "study-1",
-        institution: "Universidad Nacional",
-        title: "Ingeniería en Sistemas de Información",
-        titleEn: "Information Systems Engineering",
-        year: "2017 – 2022",
-        area: "Ingeniería",
-        areaEn: "Engineering",
+        institution: "COLEGIO SAN JOSÉ DE GUANENTÁ",
+        title: "Bachiller Técnico en Sistemas",
+        titleEn: "Bachiller Técnico en Sistemas",
+        year: "2016 – 2021",
+        area: "Bachiller Técnico",
+        areaEn: "Bachiller Técnico",
         status: "completed",
     },
     {
@@ -228,12 +228,12 @@ export const studies: Study[] = [
     },
     {
         id: "study-5",
-        institution: "AWS",
-        title: "AWS Cloud Practitioner",
-        titleEn: "AWS Cloud Practitioner",
+        institution: "UNISANGIL",
+        title: "Ingeniería en Sistemas de información.",
+        titleEn: "Ingeniería en Sistemas.",
         year: "2024 – En curso",
-        area: "Cloud Computing",
-        areaEn: "Cloud Computing",
+        area: "Ingeniería",
+        areaEn: "Engineering",
         status: "inprogress",
     },
 ];

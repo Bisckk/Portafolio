@@ -47,13 +47,13 @@
     "experience": {
         "section_label": "Experiencia",
         "title": "Mi trayectoria profesional",
-        "quote": "Cada línea de código es una oportunidad para crear algo extraordinario",
+        "quote": "LOS SENIORS TIENEN EXPERIENCIA. YO TENGO HAMBRE. GANA EL HAMBRE.",
         "present": "Presente"
     },
     "works": {
         "section_label": "Proyectos",
         "title": "Lo que he construido",
-        "subtitle": "Para devs, mira lo que he construido",
+        "subtitle": "AQUÍ NO HAY MOCKUPS. HAY PRODUCCIÓN.",
         "cta": "Ver proyectos",
         "modal_title": "Proyectos",
         "filter_all": "Todos",
@@ -99,6 +99,17 @@
         "badge_inprogress": "En curso"
     },
     "footer": {
+        "description": "Desarrollador frontend con experiencia en diseño web, ui, ux y diseño gráfico.",
+        "quick_links": "Enlaces Rápidos",
+        "services": "Servicios",
+        "contact": "Contacto",
+        "service_1": "Desarrollo web",
+        "service_2": "Diseño UI/UX",
+        "service_3": "Diseño gráfico",
+        "service_4": "Branding",
+        "location": "Bucaramanga, Colombia",
+        "phone": "(+57) 310 557 9317",
+        "email": "bismarckabarrios@gmail.com",
         "rights": "Todos los derechos reservados",
         "made_with": "Hecho con",
         "and": "y"

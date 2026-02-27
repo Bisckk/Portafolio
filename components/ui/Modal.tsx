@@ -79,21 +79,23 @@ export function Modal({ isOpen, onClose, title, children, size = "lg" }: ModalPr
             <div
                 ref={contentRef}
                 className={`relative w-full ${sizeClasses[size]} max-h-[90vh] overflow-y-auto
-          bg-black/90 dark:bg-black/90 border border-white/10
-          rounded-2xl shadow-2xl shadow-black/50`}
+          bg-[#0d0d0d]/95 backdrop-blur-xl border-t-4 border-[#CC2200] border-l border-r border-b border-white/10
+          rounded-none shadow-[0_0_50px_rgba(0,0,0,0.8)]`}
+                style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%)" }}
             >
                 {/* Header */}
                 {title && (
                     <div className="sticky top-0 z-10 flex items-center justify-between
-            p-6 border-b border-white/10 bg-black/80 backdrop-blur-sm rounded-t-2xl">
-                        <h2 className="text-xl font-semibold text-white">{title}</h2>
+            p-6 border-b border-[#CC2200]/20 bg-[#0d0d0d]/90 backdrop-blur-md">
+                        <h2 className="text-xl font-mono font-bold uppercase tracking-widest text-[#f0ede8]">
+                            &gt;_ {title}
+                        </h2>
                         <button
                             onClick={onClose}
                             aria-label="Close modal"
-                            className="w-8 h-8 flex items-center justify-center rounded-full
-                text-white/60 hover:text-white hover:bg-white/10
-                transition-all duration-200 focus-visible:outline-none
-                focus-visible:ring-2 focus-visible:ring-blue-500"
+                            className="w-10 h-10 flex items-center justify-center rounded-none
+                text-[#CC2200] hover:text-white hover:bg-[#CC2200] border border-transparent hover:border-[#CC2200]/50
+                transition-all duration-200 focus-visible:outline-none"
                         >
                             <X size={16} />
                         </button>

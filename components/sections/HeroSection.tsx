@@ -297,7 +297,7 @@ function HeroText({ t }: { t: (key: string) => string }) {
             </p>
 
             <h1 ref={titleRef}
-                className="text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tight opacity-0 leading-[1.05] drop-shadow-2xl">
+                className="text-[14vw] sm:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tighter opacity-0 leading-[1.05] drop-shadow-2xl break-words w-full px-2">
                 <span className="animated-gradient-text">{t("name")}</span>
             </h1>
 

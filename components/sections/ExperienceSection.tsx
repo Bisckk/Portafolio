@@ -1,83 +1,73 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { experiences } from "@/lib/data";
 import { MapPin, Calendar, TerminalSquare } from "lucide-react";
-
-const QUOTE_CHARS = "Every line of code is an opportunity to create something extraordinary".split("");
+import DecryptedText from "../ui/DecryptedText";
 
 export function ExperienceSection() {
     const t = useTranslations("experience");
+    const locale = useLocale();
+    const isEn = locale === "en";
     const sectionRef = useRef<HTMLElement>(null);
     const quoteRef = useRef<HTMLDivElement>(null);
-    const charsRef = useRef<(HTMLSpanElement | null)[]>([]);
     const timelineRef = useRef<HTMLDivElement>(null);
     const lineRef = useRef<SVGLineElement>(null);
 
     useEffect(() => {
+        let ctx: any;
+        let isMounted = true;
+
         const init = async () => {
             const { gsap, ScrollTrigger } = await import("@/lib/gsap-config");
-            if (!sectionRef.current) return;
+            if (!isMounted || !sectionRef.current) return;
 
-            if (charsRef.current.length > 0) {
-                gsap.fromTo(
-                    charsRef.current.filter(Boolean),
-                    { opacity: 0.08, y: () => (Math.random() - 0.5) * 30, filter: "blur(4px)" },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        filter: "blur(0px)",
-                        stagger: 0.03,
-                        ease: "none",
+            ctx = gsap.context(() => {
+                if (lineRef.current) {
+                    const len = (lineRef.current as SVGLineElement).getTotalLength?.() ?? 500;
+                    gsap.set(lineRef.current, { strokeDasharray: len, strokeDashoffset: len });
+                    gsap.to(lineRef.current, {
+                        strokeDashoffset: 0,
                         scrollTrigger: {
-                            trigger: quoteRef.current,
-                            start: "top 80%",
-                            end: "bottom 30%",
-                            scrub: 1,
+                            trigger: timelineRef.current,
+                            start: "top 70%",
+                            end: "bottom 60%",
+                            scrub: true,
                         },
-                    }
-                );
-            }
+                    });
+                }
 
-            if (lineRef.current) {
-                const len = (lineRef.current as SVGLineElement).getTotalLength?.() ?? 500;
-                gsap.set(lineRef.current, { strokeDasharray: len, strokeDashoffset: len });
-                gsap.to(lineRef.current, {
-                    strokeDashoffset: 0,
-                    scrollTrigger: {
-                        trigger: timelineRef.current,
-                        start: "top 70%",
-                        end: "bottom 60%",
-                        scrub: true,
-                    },
-                });
-            }
+                if (timelineRef.current) {
+                    const cards = timelineRef.current.querySelectorAll(".exp-card");
 
-            if (timelineRef.current) {
-                const cards = timelineRef.current.querySelectorAll(".exp-card");
-                gsap.set(cards, { x: -40, opacity: 0, filter: "blur(10px)" });
-
-                ScrollTrigger.create({
-                    trigger: timelineRef.current,
-                    start: "top 75%",
-                    onEnter: () => {
-                        gsap.to(cards, {
+                    gsap.fromTo(cards,
+                        { x: -40, opacity: 0, filter: "blur(10px)" },
+                        {
                             x: 0,
                             opacity: 1,
                             filter: "blur(0px)",
                             stagger: 0.2,
                             duration: 1.2,
                             ease: "power3.out",
-                        });
-                    },
-                    once: true,
-                });
-            }
+                            scrollTrigger: {
+                                trigger: timelineRef.current,
+                                start: "top 80%",
+                                once: true,
+                            }
+                        }
+                    );
+                }
+            }, sectionRef);
 
             ScrollTrigger.refresh();
         };
         init();
+
+        return () => {
+            isMounted = false;
+            if (ctx) ctx.revert();
+        };
     }, []);
 
     return (
@@ -91,29 +81,34 @@ export function ExperienceSection() {
             <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-[#7a1500]/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto">
-                <p className="text-xs uppercase tracking-[0.4em] text-[#CC2200] mb-6 font-medium">
-                    {t("section_label")}
-                </p>
-                <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold text-[#f0ede8] mb-20 tracking-tight">
+                <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-px bg-[#CC2200]" />
+                    <p className="text-xs uppercase tracking-[0.5em] text-[#CC2200] font-mono font-bold">
+                        // {t("section_label")}
+                    </p>
+                </div>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#f0ede8] mb-20 tracking-tighter uppercase" style={{ textShadow: "4px 4px 0px rgba(204,34,0,0.2)" }}>
                     {t("title")}
                 </h2>
 
-                {/* Scattered quote */}
+                {/* Cyberpunk Animated Quote */}
                 <div
                     ref={quoteRef}
-                    className="mb-24 max-w-4xl leading-relaxed flex flex-wrap gap-x-2 gap-y-1"
+                    className="mb-24 max-w-4xl leading-relaxed border-l-2 border-[#CC2200] pl-6 py-2 bg-gradient-to-r from-[#CC2200]/10 to-transparent"
                     aria-label={t("quote")}
                 >
-                    {QUOTE_CHARS.map((char, i) => (
-                        <span
-                            key={i}
-                            ref={(el) => { charsRef.current[i] = el; }}
-                            className={`inline-block text-lg md:text-3xl font-light tracking-tight text-white/90
-                ${char === " " ? "w-3 md:w-4" : ""}`}
-                        >
-                            {char === " " ? "\u00A0" : char}
-                        </span>
-                    ))}
+                    <DecryptedText
+                        text={t("quote")}
+                        speed={60}
+                        maxIterations={15}
+                        characters="ABCD1234!?#@*%<>_{}[]"
+                        className="text-lg md:text-3xl font-mono font-medium text-[#f0ede8] tracking-widest uppercase"
+                        encryptedClassName="text-lg md:text-3xl font-mono font-bold text-[#CC2200] tracking-widest uppercase opacity-80"
+                        parentClassName="block"
+                        animateOn="view"
+                        revealDirection="start"
+                        sequential
+                    />
                 </div>
 
                 {/* Timeline */}
@@ -143,28 +138,30 @@ export function ExperienceSection() {
                         {experiences.map((exp) => (
                             <div key={exp.id} className="exp-card relative group">
                                 {/* Timeline dot */}
-                                <div className="absolute -left-[64px] top-4 w-4 h-4 rounded-full
+                                <div className="absolute -left-[64px] top-4 w-4 h-4 rounded-none
                   bg-[#080808] border-2 border-[#CC2200] shadow-[0_0_15px_rgba(204,34,0,0.6)] 
-                  group-hover:scale-125 group-hover:bg-[#CC2200] transition-all duration-300 hidden md:block"
+                  group-hover:scale-125 group-hover:bg-[#CC2200] transition-all duration-300 hidden md:block rotate-45"
                                     aria-hidden="true"
                                 />
 
-                                {/* Card */}
-                                <div className="p-8 rounded-3xl overflow-hidden relative
-                                bg-white/[0.02] 
-                                border border-white/[0.05] 
-                                backdrop-blur-xl shadow-lg
-                                hover:border-[#CC2200]/30 hover:shadow-[0_0_40px_rgba(204,34,0,0.08)] 
-                                transition-all duration-500 ease-out">
+                                {/* Card Styled for Cyberpunk */}
+                                <div
+                                    className="p-8 relative bg-[#0d0d0d] border-l-2 border-[#CC2200] shadow-[0_0_20px_rgba(0,0,0,0.8)] hover:shadow-[0_0_30px_rgba(204,34,0,0.15)] transition-all duration-500 ease-out flex flex-col group overflow-hidden"
+                                    style={{ clipPath: "polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px))" }}
+                                >
+                                    <div className="absolute top-0 right-0 w-8 h-8 bg-[#CC2200]/20 pointer-events-none" style={{ clipPath: "polygon(100% 0, 0 0, 100% 100%)" }} />
+                                    <div className="absolute bottom-0 left-0 w-8 h-8 bg-[#CC2200]/20 pointer-events-none" style={{ clipPath: "polygon(0 100%, 100% 100%, 0 0)" }} />
 
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[#CC2200]/0 to-[#CC2200]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                                    {/* Scanline overlay */}
+                                    <div className="absolute inset-0 bg-[linear-gradient(rgba(204,34,0,0.03)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-[#CC2200]/0 to-[#CC2200]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                                     {/* Header */}
-                                    <div className="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-6 border-b border-white/5 pb-4">
+                                    <div className="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-6 border-b border-[#CC2200]/20 pb-4">
                                         <div>
                                             <h3 className="text-2xl font-bold tracking-tight text-[#f0ede8] flex items-center gap-3">
                                                 <TerminalSquare size={20} className="text-[#CC2200] hidden sm:block" />
-                                                {exp.role}
+                                                {isEn ? exp.roleEn : exp.role}
                                             </h3>
                                             <div className="flex items-center gap-2 mt-2">
                                                 <MapPin size={14} className="text-[#CC2200]" />
@@ -175,20 +172,20 @@ export function ExperienceSection() {
                                             <Calendar size={14} className="text-white/30" />
                                             <span>{exp.period}</span>
                                             {exp.current && (
-                                                <span className="ml-2 px-3 py-1 text-xs bg-green-500/10
-                          text-green-400 border border-green-500/20 rounded-full font-bold shadow-[0_0_10px_rgba(34,197,94,0.1)]">
+                                                <span className="ml-2 px-3 py-1 text-xs bg-[#CC2200]/10
+                          text-[#CC2200] border border-[#CC2200]/30 font-mono font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(204,34,0,0.2)]">
                                                     {t("present")}
                                                 </span>
                                             )}
                                         </div>
                                     </div>
 
-                                    <p className="relative z-10 text-white/60 text-base leading-relaxed mb-6 font-light">
-                                        {exp.description}
+                                    <p className="relative z-10 text-white/70 text-base leading-relaxed mb-6 font-mono tracking-wide">
+                                        &gt; {isEn ? exp.descriptionEn : exp.description}
                                     </p>
 
                                     <ul className="relative z-10 flex flex-col gap-3 mb-8">
-                                        {exp.achievements.map((ach, i) => (
+                                        {(isEn ? exp.achievementsEn : exp.achievements).map((ach, i) => (
                                             <li key={i} className="text-[15px] text-white/50 flex items-start gap-3">
                                                 <span className="text-[#CC2200] mt-[2px] shrink-0 text-lg leading-none">›</span>
                                                 <span className="font-light">{ach}</span>
@@ -196,13 +193,13 @@ export function ExperienceSection() {
                                         ))}
                                     </ul>
 
-                                    <div className="relative z-10 flex flex-wrap gap-2">
+                                    <div className="relative z-10 flex flex-wrap gap-2 mt-4 pt-4 border-t border-[#CC2200]/10">
                                         {exp.stack.map((tech) => (
                                             <span key={tech}
-                                                className="px-4 py-1.5 text-xs font-medium rounded-full border border-white/10
-                          bg-white/5 text-white/60 
-                          hover:text-[#f0ede8] hover:border-[#CC2200]/50 hover:bg-[#CC2200]/10
-                          shadow-sm transition-all duration-300">
+                                                className="px-3 py-1 text-xs font-mono font-bold rounded-sm border border-[#CC2200]/30
+                          bg-[#CC2200]/5 text-white/70 
+                          hover:text-[#f0ede8] hover:border-[#CC2200] hover:bg-[#CC2200]/20
+                          shadow-[0_0_5px_rgba(204,34,0,0.1)] hover:shadow-[0_0_10px_rgba(204,34,0,0.3)] transition-all duration-300 uppercase tracking-wider">
                                                 {tech}
                                             </span>
                                         ))}

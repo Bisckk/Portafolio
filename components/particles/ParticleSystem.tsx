@@ -52,18 +52,35 @@ const VERTEX_SHADER = /* glsl */ `
       0.0
     );
 
-    // ── 3. Interpolation ──
-    float p = smoothstep(0.0, 1.0, uProgress);
+    // ── 3. Scale Target ──
+    // Scale up the shape as requested
+    vec3 scaledTarget = aTarget * 1.4;
 
-    // ── 4. Target Jitter (Elegant scattering / "Cloud" effect) ──
+    // ── 4. Smart Interpolation ──
+    float hoverState = smoothstep(0.0, 1.0, uProgress);
+    
+    // Asignar 85% de las partículas como núcleo fijo para mantener perfectamente la silueta.
+    // aSpeed es un valor aleatorio único por partícula (entre 0 y 1).
+    float isCore = step(0.15, aSpeed); 
+    
+    // Para el 15% restante (las sueltas), creamos una suave onda de succión en lugar de saltos bruscos.
+    // 'cycle' oscila suavemente en el tiempo con offsets aleatorios.
+    float cycle = sin(uTime * 0.6 + aSpeed * 30.0);
+    
+    // smoothstep hace que la transición sea mantequilla: flotan, se absorben suavemente prestando atención al pico, y flotan de nuevo.
+    float smoothAbsorb = smoothstep(0.4, 1.0, cycle);
+    
+    // Las sueltas se absorben ocasionalmente, el núcleo está fijo
+    float particleFormFactor = isCore + ((1.0 - isCore) * smoothAbsorb);
+    float p = hoverState * clamp(particleFormFactor, 0.0, 1.0);
+
+    // ── 5. Target Jitter (Elegant scattering / "Cloud" effect) ──
     // Use high frequency noise to scatter particles around the target shape
     // This creates the "volume" look instead of thin lines
     float noiseX = sin(aRandom.x * 123.456 + aRandom.y * 789.012);
     float noiseY = cos(aRandom.y * 321.654 + aRandom.z * 987.321);
     
     // Disperse more widely (0.12 range) but keep density near center
-    // Using cubic falloff (pow 3) to concentrate particles near the line
-    // ADJUST THIS VALUE: 0.0002 controls the thickness of the line (smaller = finer)
     float scatter = 0.01 * (1.0 - p * 0.5); 
     vec3 jitter = vec3(
       noiseX * scatter,
@@ -71,12 +88,9 @@ const VERTEX_SHADER = /* glsl */ `
       0.0
     );
 
-    // ── 4. Interpolation ──
-    // float p = smoothstep(0.0, 1.0, uProgress); // Already defined above
-    
     // Mix the base positions: Random -> (Target + Jitter)
     // We add jitter to target to make it "fuzzy"
-    vec3 finalTarget = aTarget + jitter;
+    vec3 finalTarget = scaledTarget + jitter;
     
     // ── 5. Movement Logic ──
     // When dispersed (p=0): Use pure random drift

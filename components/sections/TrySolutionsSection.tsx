@@ -33,30 +33,41 @@ function ParticleColumn({ title, subtitle, cta, shape, color, count, onClick }: 
     const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        let ctx: any;
+        let isMounted = true;
+
         const init = async () => {
             const { gsap, ScrollTrigger } = await import("@/lib/gsap-config");
-            if (!contentRef.current) return;
+            if (!isMounted || !contentRef.current) return;
 
-            const elements = contentRef.current.querySelectorAll(".pcol-animate");
-            gsap.set(elements, { y: 30, opacity: 0, filter: "blur(8px)" });
-
-            ScrollTrigger.create({
-                trigger: contentRef.current,
-                start: "top 80%",
-                onEnter: () => {
-                    gsap.to(elements, {
-                        y: 0,
-                        opacity: 1,
-                        filter: "blur(0px)",
-                        stagger: 0.15,
-                        duration: 1,
-                        ease: "power3.out"
-                    });
-                },
-                once: true
-            });
+            ctx = gsap.context(() => {
+                const elements = contentRef.current?.querySelectorAll(".pcol-animate");
+                if (elements && elements.length > 0) {
+                    gsap.fromTo(elements,
+                        { y: 30, opacity: 0, filter: "blur(8px)" },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            filter: "blur(0px)",
+                            stagger: 0.15,
+                            duration: 1,
+                            ease: "power3.out",
+                            scrollTrigger: {
+                                trigger: contentRef.current,
+                                start: "top 80%",
+                                once: true
+                            }
+                        }
+                    );
+                }
+            }, contentRef);
         };
         init();
+
+        return () => {
+            isMounted = false;
+            if (ctx) ctx.revert();
+        };
     }, []);
 
     return (
@@ -91,23 +102,25 @@ function ParticleColumn({ title, subtitle, cta, shape, color, count, onClick }: 
                 </p>
                 <h3
                     className="pcol-animate
-            text-3xl md:text-4xl lg:text-5xl font-bold text-[#f0ede8] leading-tight mb-8 tracking-tight drop-shadow-md
+            text-3xl md:text-4xl lg:text-5xl font-black text-[#f0ede8] leading-tight mb-8 tracking-tighter uppercase
             transition-transform duration-500 group-hover:-translate-y-2
           "
+                    style={{ textShadow: "4px 4px 0px rgba(204,34,0,0.2)" }}
                 >
                     {title}
                 </h3>
 
-                <div className="pcol-animate overflow-hidden rounded-full inline-block mt-2">
+                <div className="pcol-animate inline-block mt-2">
                     <span
                         className="
-                inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide
-                bg-white/[0.03] border border-white/10 text-white/80 backdrop-blur-md
-                transition-all duration-500 ease-out shadow-sm
-                group-hover:bg-[#CC2200]/10 group-hover:border-[#CC2200]/40 group-hover:text-[#f0ede8] group-hover:shadow-[0_0_20px_rgba(204,34,0,0.15)]
+                inline-flex items-center gap-2 px-8 py-3.5 text-xs font-mono font-bold tracking-[0.2em] uppercase
+                bg-[#CC2200]/5 border border-[#CC2200]/30 text-[#f0ede8]
+                transition-all duration-500 ease-out shadow-[0_0_10px_rgba(204,34,0,0.1)]
+                group-hover:bg-[#CC2200]/20 group-hover:border-[#CC2200] group-hover:text-white group-hover:shadow-[0_0_30px_rgba(204,34,0,0.3)]
               "
+                        style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)" }}
                     >
-                        {cta}
+                        [ {cta} ]
                     </span>
                 </div>
             </div>
