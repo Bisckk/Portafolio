@@ -300,7 +300,14 @@ export default function HeroBissck() {
           <div className="hero-sub">
             <p>{t("description")}</p>
             <div className="hero-divider" />
-            <a href="#projects" className="hero-cta">
+            <a
+              href="#works"
+              className="hero-cta"
+              onClick={(e) => {
+                e.preventDefault();
+                window.dispatchEvent(new Event("open-works-modal"));
+              }}
+            >
               <span>{t("cta_projects")}</span>
               <span className="arrow">→</span>
             </a>

@@ -133,6 +133,12 @@ export function TrySolutionsSection() {
     const [worksOpen, setWorksOpen] = useState(false);
     const [contactOpen, setContactOpen] = useState(false);
 
+    useEffect(() => {
+        const handleOpenWorks = () => setWorksOpen(true);
+        window.addEventListener("open-works-modal", handleOpenWorks);
+        return () => window.removeEventListener("open-works-modal", handleOpenWorks);
+    }, []);
+
     return (
         <>
             <section id="works" className="relative py-20 bg-[#080808] selection:bg-[#CC2200]/30 overflow-hidden">
