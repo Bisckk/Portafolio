@@ -52,14 +52,18 @@ export function WorksModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                         {/* Thumbnail */}
                         <div className="relative h-44 bg-[#0d0d0d] overflow-hidden border-b border-[#CC2200]/20">
                             {/* Static scanlines */}
-                            <div className="absolute inset-0 bg-[linear-gradient(rgba(204,34,0,0.05)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none opacity-30" />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-5xl font-mono font-black text-[#CC2200]/10 select-none group-hover:scale-110 transition-transform duration-500">
-                                    [{proj.title[0]}]
-                                </span>
-                            </div>
+                            <div className="absolute inset-0 z-10 bg-[linear-gradient(rgba(204,34,0,0.05)_1px,transparent_1px)] bg-[size:100%_4px] pointer-events-none opacity-30" />
+
+                            {/* Real Image */}
+                            <Image
+                                src={proj.image}
+                                alt={proj.title}
+                                fill
+                                className="object-cover object-top opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            />
+
                             {/* Hover overlay */}
-                            <div className="absolute inset-0 bg-[#CC2200]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            <div className="absolute inset-0 z-20 bg-[#CC2200]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                         </div>
 
                         {/* Content */}

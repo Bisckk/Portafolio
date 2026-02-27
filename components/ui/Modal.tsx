@@ -67,6 +67,7 @@ export function Modal({ isOpen, onClose, title, children, size = "lg" }: ModalPr
             role="dialog"
             aria-modal="true"
             aria-label={title}
+            data-lenis-prevent="true"
         >
             {/* Backdrop */}
             <div

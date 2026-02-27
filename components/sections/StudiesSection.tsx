@@ -113,7 +113,7 @@ export function StudiesSection() {
                                 <span className="px-2 py-1 bg-[#CC2200]/5 border border-[#CC2200]/20 text-[#CC2200]">
                                     {isEn ? study.areaEn : study.area}
                                 </span>
-                                <span>{study.year}</span>
+                                <span>{isEn ? (study.yearEn || study.year) : study.year}</span>
                             </div>
                         </div>
                     ))}

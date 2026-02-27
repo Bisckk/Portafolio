@@ -34,6 +34,7 @@ export interface Study {
     title: string;
     titleEn: string;
     year: string;
+    yearEn?: string;
     area: string;
     areaEn: string;
     status: StudyStatus;
@@ -119,69 +120,28 @@ export const experiences: Experience[] = [
 export const projects: Project[] = [
     {
         id: "proj-1",
-        title: "Cosmos Dashboard",
-        description: "Panel de administración moderno con visualizaciones de datos en tiempo real, gráficos 3D y sistema de notificaciones.",
-        descriptionEn: "Modern admin dashboard with real-time data visualizations, 3D charts and notification system.",
-        image: "/images/projects/cosmos-dashboard.jpg",
+        title: "Cuoty - financial management",
+        description: "Plataforma SaaS multi-tenant para gestión de préstamos y cobranza. Sistema de roles, módulos financieros y operación con cliente real.",
+        descriptionEn: "Multi-tenant SaaS platform for loan management and debt collection. Role-based access, full financial modules and live operation with a real client.",
+        image: "/CUOTYDEMO.png",
         category: "Web",
-        tags: ["React", "Three.js", "TypeScript", "GraphQL", "PostgreSQL"],
-        github: "https://github.com/bismarckbarrios/cosmos-dashboard",
-        demo: "https://cosmos-dashboard.vercel.app",
+        tags: ["React", "Nextjs", "TypeScript", "PostgreSQL", "Supabase", "Material UI", "Node.js", "Nodemailer", "Git"],
+        github: "https://github.com/Bisckk/Cuoty",
+        demo: "https://www.cuoty.com/login",
         featured: true,
     },
     {
         id: "proj-2",
-        title: "Nebula UI Kit",
-        description: "Librería de componentes React con más de 80 componentes accesibles, tematizables y con animaciones GSAP integradas.",
-        descriptionEn: "React component library with over 80 accessible, themeable components with integrated GSAP animations.",
-        image: "/images/projects/nebula-ui.jpg",
+        title: "BK Portfolio",
+        description: "Portafolio personal con identidad visual propia, animaciones avanzadas y diseño oscuro orientado a impacto visual y conversión.",
+        descriptionEn: "Personal portfolio with a custom visual identity, advanced animations and dark design built for visual impact and conversion.",
+        image: "/PORTAFOLIODEMO.png",
         category: "UI/UX",
-        tags: ["React", "TypeScript", "GSAP", "Storybook", "Radix UI"],
-        github: "https://github.com/bismarckbarrios/nebula-ui",
-        demo: "https://nebula-ui.vercel.app",
+        tags: ["React", "TypeScript", "GSAP", "Nextjs", "TailwindCSS", "Framer Motion"],
+        github: "https://github.com/Bisckk/Portafolio",
+        demo: "https://portafolio-one-xi-68.vercel.app/en",
         featured: true,
-    },
-    {
-        id: "proj-3",
-        title: "TaskFlow App",
-        description: "Aplicación de gestión de tareas con drag & drop, colaboración en tiempo real y sincronización offline.",
-        descriptionEn: "Task management app with drag & drop, real-time collaboration and offline sync.",
-        image: "/images/projects/taskflow.jpg",
-        category: "Web",
-        tags: ["Next.js", "Prisma", "WebSockets", "TypeScript", "Supabase"],
-        github: "https://github.com/bismarckbarrios/taskflow",
-        demo: "https://taskflow-app.vercel.app",
-    },
-    {
-        id: "proj-4",
-        title: "EcoTrack Mobile",
-        description: "App móvil para seguimiento de huella de carbono con gamificación y reportes visuales interactivos.",
-        descriptionEn: "Mobile app for carbon footprint tracking with gamification and interactive visual reports.",
-        image: "/images/projects/ecotrack.jpg",
-        category: "Mobile",
-        tags: ["React Native", "Expo", "TypeScript", "Firebase"],
-        github: "https://github.com/bismarckbarrios/ecotrack",
-    },
-    {
-        id: "proj-5",
-        title: "Lumina Landing",
-        description: "Landing page de alto impacto con animaciones WebGL, efecto parallax multi-capa y CRO optimizado.",
-        descriptionEn: "High-impact landing page with WebGL animations, multi-layer parallax effect and CRO optimized.",
-        image: "/images/projects/lumina.jpg",
-        category: "Web",
-        tags: ["Next.js", "Three.js", "GSAP", "Vercel Edge"],
-        demo: "https://lumina-landing.vercel.app",
-    },
-    {
-        id: "proj-6",
-        title: "FinanceFlow UI",
-        description: "Rediseño completo de una plataforma fintech con foco en UX, accesibilidad WCAG 2.1 AA y performance.",
-        descriptionEn: "Complete redesign of a fintech platform focused on UX, WCAG 2.1 AA accessibility and performance.",
-        image: "/images/projects/financeflow.jpg",
-        category: "UI/UX",
-        tags: ["Figma", "React", "CSS Modules", "a11y", "Framer Motion"],
-        demo: "https://financeflow-ui.vercel.app",
-    },
+    }
 ];
 
 // ─── STUDIES DATA ──────────────────────────────────────────────────────────
@@ -190,10 +150,10 @@ export const studies: Study[] = [
         id: "study-1",
         institution: "COLEGIO SAN JOSÉ DE GUANENTÁ",
         title: "Bachiller Técnico en Sistemas",
-        titleEn: "Bachiller Técnico en Sistemas",
+        titleEn: "Technical High School Diploma in Systems",
         year: "2016 – 2021",
         area: "Bachiller Técnico",
-        areaEn: "Bachiller Técnico",
+        areaEn: "Technical Degree",
         status: "completed",
     },
     {
@@ -230,8 +190,9 @@ export const studies: Study[] = [
         id: "study-5",
         institution: "UNISANGIL",
         title: "Ingeniería en Sistemas de información.",
-        titleEn: "Ingeniería en Sistemas.",
+        titleEn: "Information Systems Engineering.",
         year: "2024 – En curso",
+        yearEn: "2024 – In progress",
         area: "Ingeniería",
         areaEn: "Engineering",
         status: "inprogress",
