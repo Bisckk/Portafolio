@@ -127,18 +127,14 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                     {/* Copyright */}
                     <div className="flex items-center gap-2 text-center md:text-left">
-                        <span className="text-white/40 text-xs md:text-sm font-medium tracking-widest uppercase">
-                            © {year} <span className="text-[#f0ede8] font-bold">BB.</span> {t("rights")}
+                        <span className="text-white/40 text-xs md:text-sm font-medium tracking-widest uppercase flex items-center gap-1.5">
+                            © {year}
+                            <Image src="/LOGO.png" alt="Bismarck Barrios" width={60} height={20} className="h-3 md:h-[14px] w-auto inline-block filter brightness-125" />
+                            {t("rights")}
                         </span>
                     </div>
 
-                    {/* Made with */}
-                    <p className="text-white/40 text-xs font-medium flex items-center gap-2 tracking-widest uppercase">
-                        {t("made_with")}
-                        <Heart size={14} className="text-[#CC2200] animate-pulse drop-shadow-[0_0_8px_rgba(204,34,0,0.8)]" fill="currentColor" />
-                        {t("and")}
-                        <Code2 size={16} className="text-[#CC2200] drop-shadow-[0_0_8px_rgba(204,34,0,0.8)]" />
-                    </p>
+
 
                     {/* Social networks - Red icons, Cyberpunk style */}
                     <div className="flex items-center gap-8">
