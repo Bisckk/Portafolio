@@ -1,13 +1,19 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Heart, Code2, Github, Linkedin, Twitter, MapPin, Phone, Mail, ChevronRight } from "lucide-react";
+import { Heart, Code2, Github, Linkedin, MapPin, Phone, Mail, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
+const XLogo = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932Zm-1.291 19.496h2.039L6.482 3.24H4.298Z" />
+    </svg>
+);
+
 const socialLinks = [
-    { name: "GitHub", href: "https://github.com/bismarckbarrios", label: "GitHub profile", icon: Github },
-    { name: "LinkedIn", href: "https://linkedin.com/in/bismarckbarrios", label: "LinkedIn profile", icon: Linkedin },
-    { name: "Twitter", href: "https://twitter.com/bismarckbarrios", label: "Twitter profile", icon: Twitter },
+    { name: "GitHub", href: "https://github.com/Bisckk", label: "GitHub profile", icon: Github },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/bismarck-andres-barrios-bautista-808012176/", label: "LinkedIn profile", icon: Linkedin },
+    { name: "X", href: "https://x.com/Bissck", label: "X profile", icon: XLogo },
 ];
 
 const navLinks = [
